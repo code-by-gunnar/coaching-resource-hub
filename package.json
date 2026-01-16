@@ -1,0 +1,38 @@
+{
+  "name": "coaching-resource-hub",
+  "version": "2.0.0",
+  "description": "A clean, simple coaching resource hub built with VitePress",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "serve": "vitepress serve",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "vitepress": "^1.6.3"
+  },
+  "keywords": [
+    "coaching",
+    "certification",
+    "training",
+    "resources",
+    "documentation"
+  ],
+  "author": "Coaching Resource Hub Team",
+  "license": "MIT",
+  "dependencies": {
+    "@heroicons/vue": "^2.2.0",
+    "@supabase/supabase-js": "^2.53.0",
+    "docx": "^9.5.1",
+    "docx-preview": "^0.3.6",
+    "dotenv": "^17.2.1",
+    "file-saver": "^2.0.5"
+  }
+}

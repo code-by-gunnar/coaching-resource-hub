@@ -541,7 +541,7 @@ SELECT 'Core I Beginner Data Summary' as report;
 
 SELECT
     'Assessment Level' as item,
-    name as value
+    al.name as value
 FROM ai_assessment_levels al
 JOIN ai_frameworks f ON al.framework_id = f.id
 WHERE f.code = 'core' AND al.level_code = 'beginner';

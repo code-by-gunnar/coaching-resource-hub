@@ -1,0 +1,151 @@
+# ============================================
+# VITEPRESS COACHING RESOURCE HUB
+# ============================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Production build
+dist/
+.vitepress/cache/
+.vitepress/dist/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Temporary folders
+tmp/
+temp/
+.tmp/
+backups/
+data_dump/
+
+# ============================================
+# MIGRATION & DEVELOPMENT FILES
+# ============================================
+
+# Claude AI artifacts
+.claude/
+
+# Migration backup (can be removed after successful migration)
+migration-backup/
+
+# Development and testing files
+VITEPRESS-MIGRATION-GUIDE.md
+test-vitepress.js
+
+# Development upload tools (exclude from production)
+dev-upload.md
+docs/dev-upload/
+.vitepress/theme/components/DevUploader.vue
+MISSING-DOWNLOADS-TODO.md
+
+# Admin components now included in production (essential management tool)
+
+# ============================================
+# DOCUSAURUS LEGACY (Should not exist after cleanup)
+# ============================================
+
+# Docusaurus cache and build artifacts
+.docusaurus/
+build/
+
+# Docusaurus config files (removed during migration)
+docusaurus.config.js
+sidebars.js
+babel.config.js
+
+# ============================================
+# BACKUP FILES
+# ============================================
+
+# Backup files
+*.backup
+*.bak
+
+# ============================================
+# SECURITY
+# ============================================
+
+# API keys and secrets
+.env*
+!.env.example
+
+# Private keys
+*.pem
+*.key
+
+# ============================================
+# VITEPRESS SPECIFIC
+# ============================================
+
+# VitePress temporary files
+.temp/
+
+# VitePress cache
+.vitepress/.temp/
+
+# ============================================
+# DEPLOYMENT
+# ============================================
+
+# Vercel
+.vercel
+
+# Netlify
+.netlify
+
+# ============================================
+# PLAYWRIGHT TESTING
+# ============================================
+
+# Playwright test results
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Playwright downloads
+playwright/

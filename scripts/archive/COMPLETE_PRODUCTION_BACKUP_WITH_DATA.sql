@@ -1,0 +1,10 @@
+-- ====================================================================
+-- COMPLETE PRODUCTION BACKUP WITH DATA - 2025-08-12
+-- ====================================================================
+-- Purpose: Complete 1:1 backup of working production system
+-- Includes: EVERYTHING - schema, data, functions, triggers, RLS, indexes
+-- Created after deployment fixes - this is the EXACT working state
+-- ====================================================================
+-- Part 1: Schema (all functions, triggers, tables, indexes, RLS)
+-- Part 2: Data (all INSERT statements)
+-- ====================================================================

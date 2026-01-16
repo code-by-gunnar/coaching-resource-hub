@@ -1,0 +1,45 @@
+User-agent: *
+Allow: /
+
+# Important pages for crawling
+Allow: /docs/
+Allow: /docs/concepts/
+Allow: /docs/business/
+Allow: /docs/training/
+Allow: /docs/certification/
+Allow: /docs/assessments/
+
+# Block unnecessary paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /tmp/
+Disallow: /.vitepress/
+Disallow: /node_modules/
+Disallow: /supabase/
+
+# Block development documentation
+Disallow: /scripts/
+Disallow: /tests/
+Disallow: /test-results/
+Disallow: /playwright-report/
+Disallow: /README.md
+Disallow: /SEO_SETUP.md
+Disallow: /CLAUDE.md
+Disallow: /*.md$
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /dist/
+
+# Block search and filtering URLs to avoid duplicate content
+Disallow: /*?search=*
+Disallow: /*?filter=*
+Disallow: /*?sort=*
+
+# Important: Reference sitemap location
+Sitemap: https://www.yourcoachinghub.co.uk/sitemap.xml
+
+# Crawl delay (optional - helps prevent overwhelming your server)
+Crawl-delay: 1
