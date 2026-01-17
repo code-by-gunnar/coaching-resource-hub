@@ -124,8 +124,7 @@
         <div class="results-note">
           <p>
             <ChartBarSquareIcon class="inline-icon" aria-hidden="true" /> <strong>Results Summary:</strong> This page provides an overview of your performance.
-            For comprehensive analysis including detailed question breakdowns, coaching scenarios, and personalized development plans,
-            <strong>download your full PDF report using the email button above.</strong>
+            Generate your AI-powered analysis below for personalized insights, then download your complete PDF report.
           </p>
         </div>
 
@@ -234,11 +233,35 @@
       <!-- Next Steps Section -->
       <div class="next-steps-section">
         <div class="simple-actions">
-          <ActionButton @click="emailAssessmentPDF" variant="primary" icon="📧" :loading="emailLoading">
+          <ActionButton
+            v-if="aiReport"
+            @click="downloadPdfReport"
+            variant="primary"
+            icon="📄"
+            :loading="pdfGenerating"
+          >
+            {{ pdfGenerating ? 'Generating PDF...' : 'Download PDF Report' }}
+          </ActionButton>
+          <ActionButton
+            v-else
+            @click="emailAssessmentPDF"
+            variant="secondary"
+            icon="📧"
+            :loading="emailLoading"
+          >
             {{ emailLoading ? 'Sending...' : 'Email Assessment' }}
           </ActionButton>
         </div>
-        
+
+        <!-- PDF Error Notification -->
+        <div v-if="pdfError" class="email-notification error">
+          <div class="notification-content">
+            <XCircleIcon class="notification-icon-svg error" aria-hidden="true" />
+            <span class="notification-message">{{ pdfError }}</span>
+            <button @click="pdfError = null" class="notification-close">×</button>
+          </div>
+        </div>
+
         <!-- Email Status Notification -->
         <div v-if="emailStatus" :class="['email-notification', emailStatus]">
           <div class="notification-content">
@@ -256,7 +279,7 @@
       <div class="page-header">
         <div class="page-title">
           <h1><ClipboardDocumentCheckIcon class="heading-icon" aria-hidden="true" /> Assessments Overview</h1>
-          <p>Manage your assessments, continue in-progress tests, and review detailed results. <strong>For comprehensive analysis, download your PDF report via email.</strong></p>
+          <p>Manage your assessments, continue in-progress tests, and review detailed results with AI-powered analysis.</p>
         </div>
       </div>
 
@@ -477,6 +500,7 @@ import { useAuth } from '../composables/useAuth.js'
 import { useSupabase } from '../composables/useSupabase.js'
 import { useAiAssessmentAttempts, useAiAssessmentResults } from '../composables/useAiAssessments.js'
 import { useBetaAccess } from '../composables/useBetaAccess.js'
+import { usePdfReport } from '../composables/usePdfReport.js'
 
 // Composables
 const { user } = useAuth()
@@ -484,6 +508,7 @@ const { supabase } = useSupabase()
 const { getUserAttempts } = useAiAssessmentAttempts()
 const { getAttemptResults, generateAiReport, getCachedReport, clearAiReport, aiReport, aiReportLoading, aiReportError } = useAiAssessmentResults()
 const { hasBetaAccess, betaAccessMessage } = useBetaAccess(user)
+const { generating: pdfGenerating, error: pdfError, generatePdf } = usePdfReport()
 
 // Reactive state
 const loading = ref(false)
@@ -766,6 +791,30 @@ const emailAssessmentPDF = async () => {
   } finally {
     emailLoading.value = false
   }
+}
+
+// PDF Download functionality
+const downloadPdfReport = async () => {
+  if (!selectedAttempt.value || !aiReport.value) {
+    return
+  }
+
+  const attempt = selectedAttempt.value.attempt || selectedAttempt.value
+  const assessment = attempt?.assessments || selectedAttempt.value.assessments
+
+  await generatePdf({
+    assessmentTitle: assessment?.title || 'Coaching Assessment',
+    framework: assessment?.framework || 'Core',
+    difficulty: assessment?.difficulty || 'Beginner',
+    score: attempt?.score ?? selectedAttempt.value.score ?? 0,
+    correctAnswers: attempt?.correct_answers ?? selectedAttempt.value.correct_answers,
+    totalQuestions: attempt?.total_questions ?? selectedAttempt.value.total_questions,
+    timeSpent: attempt?.time_spent || selectedAttempt.value.time_spent,
+    completedAt: attempt?.completed_at || selectedAttempt.value.completed_at,
+    competencyStats: competencyStats.value,
+    aiReport: aiReport.value,
+    parsedReport: parsedReport.value
+  })
 }
 
 // Utility functions
