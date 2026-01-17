@@ -1,16 +1,16 @@
 ---
-title: New Life Coach Rates (2024/2025)
-description: New Life Coach Rates (2024/2025) - comprehensive guide and resources
+title: New Life Coach Rates (2025/2026)
+description: New Life Coach Rates (2025/2026) - comprehensive guide and resources
 protected: true
 ---
 
 <ProtectedContent>
 
-# New Life Coach Rates (2024/2025)
+# New Life Coach Rates (2025/2026)
 
 For a life coach just starting out in the UK, rates can vary depending on niche, target audience, location, and how the services are delivered (online vs in-person). Here’s a general breakdown for beginner coaches:
 
-### 💷 **Typical Rates for New Life Coaches in the UK (2024/2025)**
+### 💷 **Typical Rates for New Life Coaches in the UK (2025/2026)**
 
 | Type of Session | Price Range |
 | --- | --- |

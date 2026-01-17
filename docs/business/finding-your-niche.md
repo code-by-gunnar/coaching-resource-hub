@@ -44,7 +44,7 @@ Choosing the right coaching niche is one of the most important decisions you'll 
 
 ---
 
-## Most Sought-After Coaching Niches in 2025
+## Most Sought-After Coaching Niches in 2026
 
 Based on industry trends and client demand projections:
 

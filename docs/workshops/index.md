@@ -34,7 +34,7 @@ Transform your coaching practice with workshops that capture genuine coaching co
 - Complete workshop recording
 - Ethics workbook and frameworks
 - Professional development materials
-- **Available:** Late 2025
+- **Available:** Late 2026
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Starting Your Coaching Business - Complete Launch Guide 2025
+title: Starting Your Coaching Business - Complete Launch Guide
 description: Complete guide to launching and growing a successful coaching practice. Business planning, marketing, pricing, and tools for professional coaches.
 keywords: coaching business, coach marketing, coaching practice, business development, coaching rates, coach branding, coaching clients
 protected: true
@@ -23,7 +23,7 @@ Your comprehensive interactive workbook to build a stand-out coaching business. 
 
 **[🎯 Finding Your Coaching Niche](./finding-your-niche.md)**
 Discover and develop your unique coaching specialty that attracts ideal clients:
-- Assess market demand for different coaching niches in 2025
+- Assess market demand for different coaching niches in 2026
 - Identify your strengths, experience, and natural client connections
 - Test and validate your niche through real client feedback
 - Build expertise and credibility in your chosen specialty
@@ -53,7 +53,7 @@ Choose the right technology stack for your business:
 
 **[💰 Pricing Guide](./pricing.md)**
 Set profitable and competitive rates:
-- UK coaching rates for 2024/2025
+- UK coaching rates for 2025/2026
 - Session vs. package pricing strategies
 - Factors that influence your pricing
 - Tips for new coaches starting out

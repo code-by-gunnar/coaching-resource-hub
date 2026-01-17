@@ -1,8 +1,8 @@
 ---
 layout: home
-title: "Your Coaching Hub - Professional Coaching Knowledge Base & Resources"
-description: "Comprehensive coaching knowledge base and educational resources. Study NLP techniques, GROW model, assessments, and business tools. Start your coaching journey with our interactive resources."
-keywords: "coaching resources, coaching knowledge base, NLP techniques, GROW model, coaching assessments, coaching study materials, business coaching resources, coaching workbook, coaching insights"
+title: "Your Coaching Hub - Coaching Knowledge Base & Study Resources"
+description: "Free coaching knowledge base with concept references, training guides, and self-assessment tools. Study NLP techniques, GROW model, and coaching frameworks."
+keywords: "coaching resources, coaching knowledge base, NLP techniques, GROW model, coaching assessments, coaching study materials, coaching frameworks"
 head:
   - - meta
     - property: og:image
@@ -13,15 +13,15 @@ head:
 
 hero:
   name: "Your Coaching Hub"
-  text: "Coaching Made Simple"
-  tagline: "Everything you need for coaching success, all in one centralized place - no more scattered information"
+  text: "Coaching Knowledge Base"
+  tagline: "A free collection of coaching concepts, training guides, and self-assessment tools - organized in one place for easy reference"
   image:
     src: /img/hero-image.png
     alt: Your Coaching Hub
   actions:
     - theme: brand
-      text: Get Started
-      link: /docs/getting-started/
+      text: Take Assessment
+      link: /docs/assessments/
     - theme: alt
       text: Browse Concepts
       link: /docs/concepts/
@@ -29,44 +29,44 @@ hero:
 features:
   - icon:
       src: /img/icons/clipboard-document-check.svg
-    title: Assessment System
-    details: Sophisticated self-assessment tools to evaluate your coaching skills and receive personalized insights and development recommendations.
+    title: Self-Assessment Tools
+    details: Evaluate your coaching skills across core competencies. Get personalized feedback on strengths and areas for development.
     link: /docs/assessments/
 
   - icon:
-      src: /img/icons/academic-cap.svg
-    title: Educational How-To Guides
-    details: Step-by-step educational content for real coaching situations - study proven techniques and approaches.
-    link: /docs/training/
+      src: /img/icons/book-open.svg
+    title: Concept Reference (30+ pages)
+    details: Reference guide covering coaching concepts including GROW model, NLP techniques, solution-focused approaches, and meta models.
+    link: /docs/concepts/
 
   - icon:
-      src: /img/icons/book-open.svg
-    title: Coaching Concepts Reference
-    details: Educational reference guide covering key coaching concepts, NLP techniques, frameworks, and methodologies.
-    link: /docs/concepts/
+      src: /img/icons/academic-cap.svg
+    title: Training Guides (25+ pages)
+    details: Educational content from coaching basics to advanced techniques, interventions, and ethics guidance.
+    link: /docs/training/
 
   - icon:
       src: /img/icons/briefcase.svg
     title: Business Development
-    details: Marketing strategies, branding guides, pricing models, and platforms to build your coaching practice.
+    details: Practical guides on marketing, branding, pricing, and platforms for coaches building their practice.
     link: /docs/business/
 
   - icon:
       src: /img/icons/wrench-screwdriver.svg
-    title: Essential Resources
-    details: Tools, templates, frameworks, study sessions, and comprehensive reading lists for every coaching need.
+    title: Tools & Templates
+    details: Session templates, coaching frameworks, forms, and a curated reading list for reference.
     link: /docs/resources/tools
 
   - icon:
       src: /img/icons/light-bulb.svg
-    title: NLP & Advanced Techniques
-    details: Master anchoring, reframing, timeline therapy, meta-model, and other powerful NLP coaching methods.
-    link: /docs/training/advanced
+    title: Interactive Workbook
+    details: Work through your coaching business plan with guided exercises and save your progress as you go.
+    link: /docs/profile/interactive-workbook
 ---
 
 <div class="user-journeys">
 
-## Choose Your Path
+## Where to Start
 
 <div class="journey-cards">
 
@@ -74,12 +74,12 @@ features:
   <div class="journey-icon">
     <img src="/img/icons/academic-cap.svg" alt="" aria-hidden="true" />
   </div>
-  <h3>New to Coaching</h3>
-  <p>Starting your coaching journey? Build a solid foundation with our structured learning path.</p>
+  <h3>Learning Coaching</h3>
+  <p>New to coaching? Start with the fundamentals and build your knowledge base.</p>
   <div class="journey-links">
-    <a href="/docs/getting-started/" class="journey-link primary">Get Started Guide</a>
+    <a href="/docs/getting-started/" class="journey-link primary">Getting Started</a>
     <a href="/docs/training/basics" class="journey-link">Coaching Basics</a>
-    <a href="/docs/concepts/" class="journey-link">Core Concepts</a>
+    <a href="/docs/concepts/" class="journey-link">Concept Reference</a>
   </div>
 </div>
 
@@ -87,12 +87,12 @@ features:
   <div class="journey-icon">
     <img src="/img/icons/clipboard-document-check.svg" alt="" aria-hidden="true" />
   </div>
-  <h3>Practicing Coach</h3>
-  <p>Already coaching? Sharpen your skills with assessments, advanced techniques, and intervention strategies.</p>
+  <h3>Developing Skills</h3>
+  <p>Check your current competencies and explore techniques to strengthen your practice.</p>
   <div class="journey-links">
-    <a href="/docs/assessments/" class="journey-link primary">Take an Assessment</a>
+    <a href="/docs/assessments/" class="journey-link primary">Self-Assessment</a>
     <a href="/docs/training/advanced" class="journey-link">Advanced Techniques</a>
-    <a href="/docs/training/interventions/" class="journey-link">Intervention Guides</a>
+    <a href="/docs/training/interventions/" class="journey-link">Interventions</a>
   </div>
 </div>
 
@@ -100,12 +100,12 @@ features:
   <div class="journey-icon">
     <img src="/img/icons/briefcase.svg" alt="" aria-hidden="true" />
   </div>
-  <h3>Growing Your Practice</h3>
-  <p>Ready to build your coaching business? Get practical guidance on marketing, pricing, and branding.</p>
+  <h3>Building a Practice</h3>
+  <p>Planning to coach professionally? Work through business fundamentals step by step.</p>
   <div class="journey-links">
     <a href="/docs/business/" class="journey-link primary">Business Guide</a>
     <a href="/docs/profile/interactive-workbook" class="journey-link">Interactive Workbook</a>
-    <a href="/docs/resources/templates" class="journey-link">Templates & Tools</a>
+    <a href="/docs/resources/templates" class="journey-link">Templates</a>
   </div>
 </div>
 

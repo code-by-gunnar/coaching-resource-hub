@@ -212,7 +212,7 @@ export default defineConfig({
     // Footer
     footer: {
       message: 'Built with ❤️ for the coaching community | Maintained by <a href="https://forwardfocus-coaching.co.uk/" target="_blank" rel="noopener">Forward Focus Coaching</a> | Created with <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai</a>',
-      copyright: 'Copyright © 2025 Your Coaching Hub. Educational resources for coaching professionals.<br><strong>AI Content Disclaimer:</strong> This content was created using AI and may contain errors or inaccuracies. Please report any issues to <a href="mailto:hello@forwardfocus-coaching.co.uk">hello@forwardfocus-coaching.co.uk</a>'
+      copyright: 'Copyright © 2026 Your Coaching Hub. Educational resources for coaching professionals.<br><strong>AI Content Disclaimer:</strong> This content was created using AI and may contain errors or inaccuracies. Please report any issues to <a href="mailto:hello@forwardfocus-coaching.co.uk">hello@forwardfocus-coaching.co.uk</a>'
     },
 
 

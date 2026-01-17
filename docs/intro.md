@@ -149,7 +149,7 @@ For experienced coaches seeking excellence:
 - [Session Planning Guides](/docs/resources/templates#initial-coaching-sessions)
 
 ### **Latest Updates**
-- **Advanced NLP Techniques** guide updated for 2025
+- **Advanced NLP Techniques** guide updated for 2026
 - **New Client Intake Templates** with enhanced questionnaires
 - **Professional Resources** aligned with industry best practices
 - **Community Platform** enhanced with new collaboration features
@@ -209,7 +209,7 @@ Whether you're taking your first steps into professional coaching or you're an e
 
 ---
 
-*Last updated: January 2025 | Content verified by certified coaching professionals*
+*Last updated: January 2026 | Content verified by certified coaching professionals*
 
 **Next Steps:**
 - **New coaches:** Start with [Coaching Basics](/docs/training/basics)

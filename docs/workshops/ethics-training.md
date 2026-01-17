@@ -1,5 +1,5 @@
 ---
-title: Ethics in Coaching Workshop - Coming Late 2025
+title: Ethics in Coaching Workshop - Coming Late 2026
 description: Professional ethics training with real-world scenarios and decision frameworks
 protected: true
 ---
@@ -10,9 +10,9 @@ protected: true
 
 *Professional ethics training for coaching practitioners*
 
-## 🚧 Coming Late 2025
+## 🚧 Coming Late 2026
 
-This comprehensive ethics workshop is currently being prepared and will be available in late 2025.
+This comprehensive ethics workshop is currently being prepared and will be available in late 2026.
 
 ### What to Expect
 
@@ -33,7 +33,7 @@ This comprehensive ethics workshop is currently being prepared and will be avail
 
 This workshop will follow the same authentic format as our [Finding Your Niche workshop](./niche-discovery.md) - real coaching professionals working through real ethical challenges with professional guidance.
 
-**Watch this space for updates in late 2025.**
+**Watch this space for updates in late 2026.**
 
 ---
 
