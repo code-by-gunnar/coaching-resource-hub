@@ -1,7 +1,10 @@
 ---
 title: Techniques and how to use them
 description: Techniques and how to use them - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Techniques and how to use them
 
@@ -157,3 +160,5 @@ This leads to a realization about seeking support or setting boundaries.
 </div>
 
 *Ruth Kudzi, Founder of Optimus Coach Academy, explains the key differences between NLP techniques and coaching approaches, helping coaches understand when and how to integrate NLP tools effectively.*
+
+</ProtectedContent>

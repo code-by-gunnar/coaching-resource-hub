@@ -1,7 +1,10 @@
 ---
 title: Anchoring Script (Example)
 description: Anchoring Script (Example) - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Anchoring Script (Example)
 
@@ -112,3 +115,5 @@ If the client wants **even more intensity**, stack multiple memories onto the sa
 ✔ Ensure the **physical anchor is unique** (not something they do frequently).
 
 ✔ If the response is weak, repeat the process with **stronger emotional memories**.
+
+</ProtectedContent>

@@ -1,7 +1,10 @@
 ---
 title: Branding Guide for Coaches
 description: Build a memorable and authentic coaching brand that attracts your ideal clients
+protected: true
 ---
+
+<ProtectedContent>
 
 # Branding Guide for Coaches
 
@@ -339,3 +342,4 @@ Remember: Your brand should be authentically you, not who you think you should b
 - [Kickstart Workbook](./workbook.md) - Brand development exercises
 - [Pricing Guide](./pricing.md) - Price your branded services confidently
 
+</ProtectedContent>

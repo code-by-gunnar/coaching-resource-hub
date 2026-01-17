@@ -1,7 +1,10 @@
 ---
 title: Overwhelmed by too many options
 description: Overwhelmed by too many options - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Overwhelmed by too many options
 
@@ -76,3 +79,5 @@ description: Overwhelmed by too many options - comprehensive guide and resources
 ---
 
 **Tip:** Too many options can feel like freedom but act like a trap. Your role is to help the client reconnect with clarity, courage, and the first next step.
+
+</ProtectedContent>

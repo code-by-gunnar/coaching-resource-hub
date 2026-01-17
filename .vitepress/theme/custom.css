@@ -426,3 +426,50 @@ a:focus:not(:focus-visible) {
     padding: 1.5rem;
   }
 }
+
+/* ================================================
+   PROTECTED CONTENT TEASER CENTERING
+   ================================================ */
+/* Hide the aside when content-teaser is shown and make content full-width */
+.VPDoc:has(.content-teaser) .aside {
+  display: none !important;
+}
+
+/* Override the VitePress grid to be single column when showing teaser */
+.VPDoc:has(.content-teaser) .container {
+  display: block !important;
+  max-width: 100% !important;
+}
+
+.VPDoc:has(.content-teaser) .container > .content {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+/* Center the content-teaser like Auth component */
+.vp-doc .content-teaser {
+  max-width: 800px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .vp-doc .content-teaser {
+    padding: 16px !important;
+  }
+}
+
+/* Ensure protected-content wrapper doesn't constrain */
+.protected-content {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* When user is authenticated, show aside and normal layout */
+.protected-content .full-content {
+  max-width: none !important;
+  width: 100% !important;
+}

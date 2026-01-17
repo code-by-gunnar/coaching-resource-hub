@@ -1,7 +1,10 @@
 ---
 title: Coaching Platforms & Tools
 description: Complete guide to coaching platforms, scheduling tools, and business management software
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching Platforms & Tools
 
@@ -324,3 +327,5 @@ Remember: The best platform is the one you'll actually use consistently. Start s
 - [Business Forms](./business-forms.md) - Client contracts and legal documents
 - [Marketing Guide](./marketing.md) - Promote your services effectively
 - [Pricing Guide](./pricing.md) - Set profitable rates for your services
+
+</ProtectedContent>

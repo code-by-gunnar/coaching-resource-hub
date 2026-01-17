@@ -1,7 +1,10 @@
 ---
 title: Overview
 description: Overview - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Advanced NLP Overview
 
@@ -405,3 +408,5 @@ Advanced NLP (Neuro-Linguistic Programming) represents the cutting-edge evolutio
 Advanced NLP is ultimately about becoming a clear, compassionate, and skilled facilitator of human potential. When mastered with integrity and wisdom, these tools become vehicles for profound service to others and contribution to human flourishing.
 
 **Remember:** The most powerful NLP technique is who you are being when you use it.
+
+</ProtectedContent>

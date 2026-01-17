@@ -1,7 +1,10 @@
 ---
 title: Finding Your Coaching Niche
 description: Discover how to identify and develop your unique coaching specialty that matches your strengths with client needs
+protected: true
 ---
+
+<ProtectedContent>
 
 # Finding Your Coaching Niche
 
@@ -603,3 +606,5 @@ Finding your coaching niche is a journey of self-discovery, market research, and
 **Remember:** Your niche isn't a permanent prison—it's a focused starting point that can evolve as you grow, learn, and develop expertise. The key is to choose something that energizes you, serves real client needs, and allows you to build the coaching practice and impact you desire.
 
 **Take Action:** Start with one area that excites you, test it through real client conversations, and adjust based on what you learn. Your ideal niche is waiting to be discovered through experimentation, not just contemplation.
+
+</ProtectedContent>

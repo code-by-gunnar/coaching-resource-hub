@@ -1,7 +1,9 @@
 ---
 title: Certification Assessment Guide
 description: Understanding ICF and AC assessment processes, what to expect, and how to prepare for coaching certification evaluations
+protected: true
 ---
+<ProtectedContent>
 
 # Certification Assessment Guide 📝
 
@@ -285,3 +287,4 @@ A: Yes, many candidates work with experienced coaches for assessment preparation
 ---
 
 *Remember: Assessment is designed to ensure coaching competency, not to prevent certification. Proper preparation and genuine coaching skills development will lead to success.*
+</ProtectedContent>

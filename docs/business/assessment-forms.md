@@ -1,7 +1,10 @@
 ---
 title: Client Assessment Forms for UK Coaches
 description: Professional assessment tools and intake forms tailored for UK coaching practices, including GDPR-compliant templates
+protected: true
 ---
+
+<ProtectedContent>
 
 # Client Assessment Forms for UK Coaches
 
@@ -622,3 +625,5 @@ Before using any assessment form:
 ---
 
 Remember: These forms are tools to enhance your coaching practice, not replace your professional judgment. Always adapt them to suit your specific coaching style and client needs while maintaining UK legal compliance.
+
+</ProtectedContent>

@@ -1,7 +1,10 @@
 ---
 title: Timeline & Compelling Goal Example
 description: Timeline & Compelling Goal Example - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Timeline & Compelling Goal Example
 
@@ -126,3 +129,5 @@ description: Timeline & Compelling Goal Example - comprehensive guide and resour
 ---
 
 This is just one example of a timeline and goal-setting process for a coaching session. It can be adapted based on the specific goals, obstacles, and motivations of your clients. The key is to make the goal feel tangible and achievable by breaking it down into actionable steps!
+
+</ProtectedContent>

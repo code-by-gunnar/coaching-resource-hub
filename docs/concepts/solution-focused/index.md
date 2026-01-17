@@ -1,7 +1,10 @@
 ---
 title: Solution-Focused Approaches
 description: Value-centric and solution-focused coaching methodologies
+protected: true
 ---
+
+<ProtectedContent>
 
 # Solution-Focused Approaches
 
@@ -30,3 +33,5 @@ By studying these concepts, you will be able to:
 ← Previous: [NLP Techniques](../nlp-techniques/)
 
 → Next: [Advanced NLP & Meta Models](../advanced-nlp/)
+
+</ProtectedContent>

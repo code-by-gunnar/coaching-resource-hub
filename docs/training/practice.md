@@ -1,7 +1,10 @@
 ---
 title: Practice Exercises
 description: Hands-on exercises and scenarios to develop coaching mastery
+protected: true
 ---
+
+<ProtectedContent>
 
 # 🎯 Coaching Practice Exercises
 
@@ -479,3 +482,5 @@ Create 90-day development goals:
 **Remember:** Mastery comes through consistent practice, not perfection. Every interaction is a chance to improve your coaching skills.
 
 **Next Steps:** Ready to apply these skills professionally? Review [Certification Requirements](/docs/certification/requirements) or explore [Professional Tools](/docs/resources/tools).
+
+</ProtectedContent>

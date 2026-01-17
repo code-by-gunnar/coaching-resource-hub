@@ -1,7 +1,10 @@
 ---
 title: Foundations & Connection
 description: Core coaching foundations and connection-building concepts
+protected: true
 ---
+
+<ProtectedContent>
 
 # Foundations & Connection
 
@@ -42,3 +45,5 @@ Explore [NLP Techniques](../nlp-techniques/) →
 
 ---
 *These are educational summaries of coaching concepts for self-study and reference.*
+
+</ProtectedContent>

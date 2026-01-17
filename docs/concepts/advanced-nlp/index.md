@@ -1,7 +1,10 @@
 ---
 title: Advanced NLP & Meta Models
 description: Advanced NLP techniques, Meta Model, Milton Model, and Timeline
+protected: true
 ---
+
+<ProtectedContent>
 
 # Advanced NLP & Meta Models
 
@@ -42,3 +45,5 @@ By studying these concepts, you will be able to:
 
 ## Navigation
 ← Previous: [Solution-Focused Approaches](../solution-focused/)
+
+</ProtectedContent>

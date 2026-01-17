@@ -1,7 +1,10 @@
 ---
 title: Future Pace
 description: Future Pace - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Future Pace
 
@@ -425,3 +428,5 @@ Changes that can be measured in quantifiable data:
 Future Pacing transforms coaching insights into lasting change by bridging the gap between learning and application. When you can successfully perform new behaviors in imagination, you're ready to succeed in reality.
 
 **Remember:** What you rehearse in mind, you can achieve in life.
+
+</ProtectedContent>

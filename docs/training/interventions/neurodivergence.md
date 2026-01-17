@@ -1,7 +1,10 @@
 ---
 title: Neurodivergence
 description: Neurodivergence - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Neurodivergence
 
@@ -76,3 +79,5 @@ description: Neurodivergence - comprehensive guide and resources
 ---
 
 **Tip:** Neurodivergent clients thrive with acceptance, flexibility, and creative support. Your job as coach is to help them build a life that works *with*, not against, their natural wiring.
+
+</ProtectedContent>

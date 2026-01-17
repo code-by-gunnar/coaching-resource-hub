@@ -1,7 +1,10 @@
 ---
 title: Building the Coaching Connection
 description: Building the Coaching Connection - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Building the Coaching Connection
 
@@ -557,3 +560,5 @@ The coaching connection is the invisible bridge between where clients are and wh
 The coaching connection is both art and science - requiring technical skill in relationship building combined with authentic presence and genuine care. When mastered, it becomes the invisible foundation that makes all other coaching interventions possible and transforms simple conversations into catalysts for profound life change.
 
 **Remember:** The quality of the connection determines the depth of the transformation. Invest in the relationship, and everything else becomes possible.
+
+</ProtectedContent>

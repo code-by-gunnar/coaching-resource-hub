@@ -1,7 +1,10 @@
 ---
 title: Using NLP Interventions
 description: Using NLP Interventions - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Using NLP Interventions
 
@@ -32,3 +35,5 @@ Future Pace |
 | Visualising the Future/Possibilities | NLP Timelines |
 | Putting the Past Behind you | NLP Timelines |
 |  |  |
+
+</ProtectedContent>

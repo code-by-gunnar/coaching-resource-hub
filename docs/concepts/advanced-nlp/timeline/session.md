@@ -1,7 +1,10 @@
 ---
 title: Timeline Session Example
 description: Timeline Session Example - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Timeline Session Example
 
@@ -109,3 +112,5 @@ The coach wraps up the session by summarizing insights and action steps.
 3. **Actionable Steps:** The session concludes with a clear action step (seeking mentorship), which connects her present to her future goals.
 
 This timeline coaching session would help Sarah gain clarity, resolve past issues, and feel empowered to move forward in her career with more confidence.
+
+</ProtectedContent>

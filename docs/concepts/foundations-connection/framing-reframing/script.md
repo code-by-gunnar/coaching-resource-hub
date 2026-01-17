@@ -1,7 +1,10 @@
 ---
 title: "Coaching Script: Framing & Reframing"
 description: "Coaching Script: Framing & Reframing - comprehensive guide and resources"
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching Script: Framing & Reframing
 
@@ -156,3 +159,5 @@ description: "Coaching Script: Framing & Reframing - comprehensive guide and res
 ✔ Use **Perspective Reframing** when a client feels stuck in a one-sided view.
 
 ✔ Adapt the script to different **personal and professional coaching situations**.
+
+</ProtectedContent>

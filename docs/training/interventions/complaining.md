@@ -1,7 +1,10 @@
 ---
 title: Constantly complains or blames others
 description: Constantly complains or blames others - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Constantly complains or blames others
 
@@ -76,3 +79,5 @@ description: Constantly complains or blames others - comprehensive guide and res
 ---
 
 **Tip:** Meet clients with compassion, not correction. Complaining is often a disguised cry for clarity, confidence, or connection. Redirect without shaming.
+
+</ProtectedContent>

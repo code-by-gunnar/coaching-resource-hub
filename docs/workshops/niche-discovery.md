@@ -1,7 +1,10 @@
 ---
 title: Finding Your Coaching Niche - Group Discovery Session
 description: Watch real coaches discover their profitable niches in this authentic 2-hour workshop recording
+protected: true
 ---
+
+<ProtectedContent>
 
 # Finding Your Coaching Niche - Group Discovery Session
 
@@ -144,3 +147,5 @@ This session is facilitated by the founder of [Forward Focus Coaching](https://f
 ---
 
 *This workshop recording captures authentic coaching conversations and provides genuine insights into professional niche development.*
+
+</ProtectedContent>

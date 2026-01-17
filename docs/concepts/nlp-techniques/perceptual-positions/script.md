@@ -1,7 +1,10 @@
 ---
 title: Shifting Perceptual Positions Script (Example)
 description: Shifting Perceptual Positions Script (Example) - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Shifting Perceptual Positions Script (Example)
 
@@ -132,3 +135,5 @@ This is particularly useful for **resolving conflicts, improving relationships, 
 ✔ **Encourage deep visualization for the best results.**
 
 ✔ **Use neutral, open-ended questions to guide the client to new realizations.**
+
+</ProtectedContent>

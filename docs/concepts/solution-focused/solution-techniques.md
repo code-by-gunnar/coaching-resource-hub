@@ -1,7 +1,10 @@
 ---
 title: Solution Focused Techniques
 description: Solution Focused Techniques - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Solution Focused Techniques
 
@@ -429,3 +432,5 @@ You already have resistance skills – this will help you recognize them."
 - What you pay attention to expands
 - Change is always happening – look for exceptions
 - Future-focused questions create possibility
+
+</ProtectedContent>

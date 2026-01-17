@@ -1,7 +1,10 @@
 ---
 title: Lacking motivation or procrastinating / Struggling to set goals
 description: Lacking motivation or procrastinating / Struggling to set goals - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Lacking motivation or procrastinating / Struggling to set goals
 
@@ -76,3 +79,5 @@ description: Lacking motivation or procrastinating / Struggling to set goals - c
 ---
 
 **Tip:** Motivation often follows action. Help your client create tiny wins to rebuild momentum, and always reconnect to the *why* behind their goals.
+
+</ProtectedContent>

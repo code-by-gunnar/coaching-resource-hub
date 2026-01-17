@@ -1,7 +1,10 @@
 ---
 title: Milton Model
 description: Milton Model - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Milton Model
 
@@ -290,3 +293,5 @@ The Milton Model transforms coaching conversations from simple exchanges of info
 - "Milton Erickson conversational hypnosis"
 - "NLP Milton Model demonstrations"
 - "Indirect suggestion techniques"
+
+</ProtectedContent>

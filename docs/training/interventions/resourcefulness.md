@@ -1,7 +1,10 @@
 ---
 title: Wants to feel confident, relaxed, or resourceful in specific situations
 description: Wants to feel confident, relaxed, or resourceful in specific situations - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Wants to feel confident, relaxed, or resourceful in specific situations
 
@@ -76,3 +79,5 @@ The client wants to access a particular emotional or mental state (e.g., confide
 ---
 
 **Tip:** Help clients realize they already have these states within them — your role is to guide them in unlocking and accessing them consistently.
+
+</ProtectedContent>

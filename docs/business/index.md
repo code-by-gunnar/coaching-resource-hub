@@ -2,7 +2,10 @@
 title: Starting Your Coaching Business - Complete Launch Guide 2025
 description: Complete guide to launching and growing a successful coaching practice. Business planning, marketing, pricing, and tools for professional coaches.
 keywords: coaching business, coach marketing, coaching practice, business development, coaching rates, coach branding, coaching clients
+protected: true
 ---
+
+<ProtectedContent>
 
 # Starting Your Coaching Business
 
@@ -211,3 +214,5 @@ Remember: Building a coaching business is a marathon, not a sprint. Focus on ser
 - [💼 Platforms & Tools](./platforms.md) - Choose your tech stack
 - [📋 Assessment Forms](./assessment-forms.md) - Client intake tools
 - [📄 Business Forms](./business-forms.md) - Legal documents and contracts
+
+</ProtectedContent>

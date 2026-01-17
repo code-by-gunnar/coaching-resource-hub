@@ -1,7 +1,10 @@
 ---
 title: Low energy and burnout
 description: Low energy and burnout - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Low energy and burnout
 
@@ -76,3 +79,5 @@ Clients may show signs of fatigue, lack of motivation, emotional flatness, or ph
 ---
 
 **Tip:** With burnout, slow down the coaching pace. Start with nervous system and energy awareness before diving into problem-solving or goal-setting.
+
+</ProtectedContent>

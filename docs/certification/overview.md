@@ -1,7 +1,9 @@
 ---
 title: Understanding Professional Coaching Standards - AC vs ICF
 description: Educational guide to understanding professional coaching frameworks - comparing Association of Coaching (AC) and International Coaching Federation (ICF) standards
+protected: true
 ---
+<ProtectedContent>
 
 # Understanding Professional Coaching Standards 🎓
 
@@ -204,3 +206,4 @@ A: Yes, but ICF and AC are the most widely recognized globally.
 ---
 
 *This guide provides general information to help you make an informed decision. Always verify current requirements with the official certification bodies.*
+</ProtectedContent>

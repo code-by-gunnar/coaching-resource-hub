@@ -1,7 +1,10 @@
 ---
 title: Essential Coaching Forms & Templates
 description: Comprehensive collection of client management, assessment, and business forms for coaching practice
+protected: true
 ---
+
+<ProtectedContent>
 
 # Essential Coaching Forms & Templates
 
@@ -185,3 +188,5 @@ Need help customizing these forms for your specific coaching practice? Consider:
 ---
 
 *Professional forms create trust, clarity, and structure in your coaching relationships. Choose the forms that best serve your clients and adapt them to reflect your unique coaching style and approach.*
+
+</ProtectedContent>

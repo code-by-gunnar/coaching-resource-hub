@@ -1,7 +1,10 @@
 ---
 title: How To Get The Most From Your Coaching
 description: How To Get The Most From Your Coaching - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # How To Get The Most From Your Coaching
 
@@ -41,3 +44,5 @@ We want for you to benefit greatly from the time you spend with your coach and a
 | • Raise your personal standards | • Remove sources of stress |
 
 **AND FINALLY, KEEP YOURSELF WELL BETWEEN SESSIONS**
+
+</ProtectedContent>

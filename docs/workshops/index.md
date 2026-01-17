@@ -1,7 +1,10 @@
 ---
 title: Professional Workshops for Coaches
 description: Authentic workshop recordings and training materials for coaching professionals
+protected: true
 ---
+
+<ProtectedContent>
 
 # Professional Workshops for Coaches 🎓
 
@@ -77,3 +80,5 @@ These workshops are facilitated by the founder of [Forward Focus Coaching](https
 ---
 
 *All workshops are based on real coaching sessions and provide authentic insights into professional coaching practice.*
+
+</ProtectedContent>

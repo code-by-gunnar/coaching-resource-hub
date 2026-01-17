@@ -1,7 +1,10 @@
 ---
 title: Meta Model
 description: Meta Model - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Meta Model
 
@@ -102,3 +105,5 @@ While the **Milton Model** uses **vague and hypnotic** language to **influence a
 ## **Final Thoughts**
 
 The **Meta Model** is a powerful coaching tool for **bringing clarity, breaking limiting beliefs, and challenging unhelpful thinking patterns**. By asking precise questions, coaches help clients **think more clearly, take responsibility, and find real solutions**.
+
+</ProtectedContent>

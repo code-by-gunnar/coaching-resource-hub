@@ -1,7 +1,10 @@
 ---
 title: Solution Focused Coaching
 description: Solution Focused Coaching - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Solution Focused Coaching
 
@@ -98,3 +101,5 @@ Solution-Focused Coaching is a **powerful, action-driven approach** that helps c
 </div>
 
 *This demonstration showcases solution-focused coaching techniques in practice, illustrating how to help clients identify their strengths, envision preferred futures, and create actionable steps toward their goals.*
+
+</ProtectedContent>

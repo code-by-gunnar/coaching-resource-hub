@@ -1,7 +1,10 @@
 ---
 title: Business Forms & Legal Documents for UK Coaches
 description: Essential contracts, agreements, and business forms for UK coaching practices, including GDPR-compliant templates and VAT-ready documents
+protected: true
 ---
+
+<ProtectedContent>
 
 # Business Forms & Legal Documents for UK Coaches
 
@@ -905,3 +908,5 @@ Supervision Sessions:
 ---
 
 Remember: These templates are starting points. Always customise for your specific practice and seek professional legal advice when needed, especially for complex situations or higher-value contracts.
+
+</ProtectedContent>

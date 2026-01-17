@@ -1,7 +1,10 @@
 ---
 title: New Life Coach Rates (2024/2025)
 description: New Life Coach Rates (2024/2025) - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # New Life Coach Rates (2024/2025)
 
@@ -117,3 +120,5 @@ Medium-term (5–7 sessions) £325–£455
 Long-term (12 sessions) £660–£840
 
 Specialised Programs (e.g., Gastric Band, Smoking Cessation) £275–£600
+
+</ProtectedContent>

@@ -1,7 +1,10 @@
 ---
 title: Struggling with time management
 description: Struggling with time management - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Struggling with time management
 
@@ -75,4 +78,6 @@ description: Struggling with time management - comprehensive guide and resources
 
 ---
 
-**Tip:** Time management is energy, boundaries, clarity, and courage in disguise. Start with small wins and structure that fits the client’s real life.
+**Tip:** Time management is energy, boundaries, clarity, and courage in disguise. Start with small wins and structure that fits the client's real life.
+
+</ProtectedContent>

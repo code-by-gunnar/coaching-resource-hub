@@ -1,7 +1,10 @@
 ---
 title: Value-centric Coaching
 description: Value-centric Coaching - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Value-Centric Coaching
 
@@ -393,3 +396,5 @@ For each major life area, rate alignment with core values (1-10):
 Value-Centric Coaching transforms clients from the inside out, creating lasting change that feels authentic, sustainable, and deeply satisfying. When clients live from their values, they experience the full expression of their potential and the deep fulfillment that comes from authentic living.
 
 **Remember:** The goal isn't perfect values alignment, but conscious movement toward becoming more of who you truly are.
+
+</ProtectedContent>

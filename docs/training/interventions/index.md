@@ -1,7 +1,10 @@
 ---
 title: Coaching Interventions
 description: Practical interventions and techniques for common coaching challenges
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching Interventions
 
@@ -99,3 +102,5 @@ Expand into:
 ---
 
 *Remember: The best intervention is the one that resonates with your specific client at their specific moment of need.*
+
+</ProtectedContent>

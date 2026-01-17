@@ -1,7 +1,10 @@
 ---
 title: Stuck in negative self-talk
 description: Stuck in negative self-talk - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Stuck in negative self-talk
 
@@ -75,4 +78,6 @@ description: Stuck in negative self-talk - comprehensive guide and resources
 
 ---
 
-**Tip:** Self-talk isn’t just a habit — it’s a learned pattern. Coaching can help clients rewrite their internal narrative by cultivating awareness, compassion, and conscious language.
+**Tip:** Self-talk isn't just a habit — it's a learned pattern. Coaching can help clients rewrite their internal narrative by cultivating awareness, compassion, and conscious language.
+
+</ProtectedContent>

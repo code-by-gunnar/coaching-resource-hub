@@ -2,7 +2,10 @@
 title: Coaching Concepts & Techniques - Complete Reference Guide
 description: Comprehensive coaching reference guide covering NLP techniques, GROW model, solution-focused approaches, and professional coaching frameworks.
 keywords: coaching concepts, NLP techniques, GROW model, solution-focused coaching, coaching frameworks, anchoring, reframing, active listening
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching Concepts Reference Guide
 
@@ -71,3 +74,5 @@ New to coaching concepts? Start with [Foundations & Connection](./foundations-co
 ---
 
 **Disclaimer:** This reference guide contains educational summaries of coaching concepts taught across the industry. These materials are intended as study aids and reference tools for coaches at all levels.
+
+</ProtectedContent>

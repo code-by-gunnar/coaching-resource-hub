@@ -1,7 +1,10 @@
 ---
 title: G.R.O.W Model
 description: G.R.O.W Model - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # The G.R.O.W Model
 
@@ -612,3 +615,5 @@ Complete coaching conversation using the G.R.O.W framework
 </div>
 
 *Angela Duckworth from Acumen Academy explains goal hierarchies and how to structure goals effectively for maximum impact.*
+
+</ProtectedContent>

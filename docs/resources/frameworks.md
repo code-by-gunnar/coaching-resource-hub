@@ -2,7 +2,10 @@
 title: Coaching Frameworks & Methodologies
 description: >-
   Comprehensive guide to proven coaching frameworks, methodologies, and
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching Frameworks & Methodologies 🏗️
 
@@ -2041,3 +2044,5 @@ Client Evolution Considerations:
 *Effective coaching frameworks provide the structure that allows transformational conversations to emerge. Choose frameworks that align with your coaching philosophy and your clients' needs, and remember that the relationship is always more important than the methodology.* 🌟
 
 **[🔧 Explore Coaching Tools →](/docs/resources/tools)** | **[📝 View Templates →](/docs/resources/templates)** | **[🎓 Certification Programs →](/docs/certification/overview)**
+
+</ProtectedContent>

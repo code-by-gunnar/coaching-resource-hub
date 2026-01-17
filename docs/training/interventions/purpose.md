@@ -1,7 +1,10 @@
 ---
 title: Not sure what to focus on / Feeling purposeless or lost
 description: Not sure what to focus on / Feeling purposeless or lost - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Not sure what to focus on / Feeling purposeless or lost
 
@@ -76,3 +79,5 @@ description: Not sure what to focus on / Feeling purposeless or lost - comprehen
 ---
 
 **Tip:** Feeling lost is often the start of deep self-discovery. Create safety, curiosity, and space for meaning to emerge naturally.
+
+</ProtectedContent>

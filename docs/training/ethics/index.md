@@ -1,7 +1,10 @@
 ---
 title: Coaching Ethics
 description: Essential ethical guidelines and frameworks for professional coaching practice
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching Ethics
 
@@ -81,3 +84,5 @@ When facing ethical dilemmas:
 ---
 
 *Ethical practice is not just about following rules—it's about maintaining the trust and integrity that makes coaching effective.*
+
+</ProtectedContent>

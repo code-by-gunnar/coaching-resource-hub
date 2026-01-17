@@ -1,7 +1,10 @@
 ---
 title: Chunking
 description: Chunking - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Chunking
 
@@ -420,3 +423,5 @@ Chunking is a foundational NLP technique that helps clients adjust their level o
 Chunking is both an art and a science - the technical skill of knowing when and how to shift perspectives, combined with the artful sensitivity to read what clients truly need in each moment. Master chunking, and you master one of the most powerful tools for creating breakthrough insights and effective action in coaching.
 
 **Remember:** The goal isn't to chunk for the sake of chunking, but to find the exact perspective that unlocks your client's next step forward.
+
+</ProtectedContent>

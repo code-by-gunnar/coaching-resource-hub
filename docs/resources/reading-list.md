@@ -1,7 +1,10 @@
 ---
 title: Essential Coaching Reading List
 description: Comprehensive collection of must-read books for coaches at every level
+protected: true
 ---
+
+<ProtectedContent>
 
 # Essential Coaching Reading List
 
@@ -132,3 +135,5 @@ Choose based on your niche:
 ---
 
 *This reading list is regularly updated based on coaching community feedback and new publications. Suggestions for additions are always welcome.*
+
+</ProtectedContent>

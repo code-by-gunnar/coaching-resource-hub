@@ -1,7 +1,10 @@
 ---
 title: Building the Foundations
 description: Building the Foundations - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Building the Foundations
 
@@ -34,3 +37,5 @@ Building strong foundations is essential for success, both personally and profes
 - **Staying Curious:** Maintaining a sense of curiosity fuels your desire to learn and explore, leading to new opportunities and discoveries.
 
 By focusing on these foundational elements, you create a solid base for achieving your goals, building resilience, and living a fulfilling life.
+
+</ProtectedContent>

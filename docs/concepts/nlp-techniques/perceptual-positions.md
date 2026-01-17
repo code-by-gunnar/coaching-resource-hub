@@ -1,7 +1,10 @@
 ---
 title: Shifting Perceptual Positions
 description: Shifting Perceptual Positions - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Shifting Perceptual Positions
 
@@ -173,3 +176,5 @@ The technique operates on the principle that every situation involves multiple p
 </div>
 
 *Watch practical applications of perceptual positions technique in coaching sessions, demonstrating how to guide clients through perspective shifts for conflict resolution and enhanced empathy.*
+
+</ProtectedContent>

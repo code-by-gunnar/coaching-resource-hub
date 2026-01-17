@@ -1,7 +1,10 @@
 ---
 title: Anchoring
 description: Anchoring - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Anchoring
 
@@ -136,3 +139,5 @@ Step-by-step coaching script with dialogue examples
 - Unique, repeatable stimulus
 - Proper timing and testing
 - Ethical consent and positive purpose
+
+</ProtectedContent>

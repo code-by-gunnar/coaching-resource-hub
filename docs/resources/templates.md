@@ -2,7 +2,10 @@
 title: Session Templates & Structures
 description: >-
   Ready-to-use templates for coaching sessions, client communications,
+protected: true
 ---
+
+<ProtectedContent>
 
 # Session Templates & Structures 📝
 
@@ -939,3 +942,5 @@ Gratitude & Appreciation:
 *Effective session templates provide the structure that allows authentic coaching conversations to flourish. Use these as starting points and adapt them to create your signature coaching experience.* 🌟
 
 **[🔧 Explore Coaching Tools →](/docs/resources/tools)** | **[🏗️ View Frameworks →](/docs/resources/frameworks)** | **[🎓 Certification Programs →](/docs/certification/overview)**
+
+</ProtectedContent>

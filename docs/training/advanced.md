@@ -1,7 +1,10 @@
 ---
 title: Advanced Coaching Techniques
 description: Sophisticated coaching methods for experienced practitioners
+protected: true
 ---
+
+<ProtectedContent>
 
 # 🚀 Advanced Coaching Techniques
 
@@ -479,3 +482,5 @@ After each session, reflect:
 - **[Coaching Exercises](/docs/training/practice)** - Structured practice activities
 - **[Professional Tools](/docs/resources/tools)** - Essential coaching resources
 - **[Assessment Systems](/docs/assessments/)** - Evaluate your coaching competencies
+
+</ProtectedContent>

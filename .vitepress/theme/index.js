@@ -16,6 +16,8 @@ import WorkbookSection from './components/workbook/WorkbookSection.vue'
 import WorkbookListInput from './components/workbook/WorkbookListInput.vue'
 import SEOHead from './components/SEOHead.vue'
 import GoogleAnalytics from './components/GoogleAnalytics.vue'
+import ContentTeaser from './components/ContentTeaser.vue'
+import ProtectedContent from './components/ProtectedContent.vue'
 import Layout from './Layout.vue'
 import './tokens.css'
 import './custom.css'
@@ -54,6 +56,8 @@ export default {
     app.component('WorkbookListInput', WorkbookListInput)
     app.component('SEOHead', SEOHead)
     app.component('GoogleAnalytics', GoogleAnalytics)
+    app.component('ContentTeaser', ContentTeaser)
+    app.component('ProtectedContent', ProtectedContent)
 
     // Admin tools (lightweight assessment management)
     const AdminTools = await import('./components/AdminTools.vue')

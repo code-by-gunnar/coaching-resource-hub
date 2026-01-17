@@ -1,7 +1,10 @@
 ---
 title: Life transitions (moving, diagnosis, new parenthood, career change)
 description: Life transitions (moving, diagnosis, new parenthood, career change) - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Life transitions (moving, diagnosis, new parenthood, career change)
 
@@ -76,3 +79,5 @@ description: Life transitions (moving, diagnosis, new parenthood, career change)
 ---
 
 **Tip:** Transitions are both disorienting and transformational. Your role is to hold space, normalize the in-between, and support reconnection to identity, values, and vision.
+
+</ProtectedContent>

@@ -1,7 +1,10 @@
 ---
 title: Feeling Anxious or Overwhelmed
 description: Feeling Anxious or Overwhelmed - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Feeling Anxious or Overwhelmed
 
@@ -81,3 +84,5 @@ Use the following techniques during sessions to help your client regain calm, cl
 - "What’s one small thing you can control right now?"
 - "What would it look like to be kind to yourself in this moment?"
 - "If this feeling could speak, what would it say?"
+
+</ProtectedContent>

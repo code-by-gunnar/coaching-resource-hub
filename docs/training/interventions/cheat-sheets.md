@@ -1,7 +1,10 @@
 ---
 title: Cheat Sheets
 description: Cheat Sheets - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Intervention Cheat Sheets
 
@@ -39,3 +42,5 @@ Quick reference guides for common coaching situations and interventions:
 - [**Wants to Feel Confident in Specific Situations**](./resourcefulness.md)
 
 Each cheat sheet provides specific coaching interventions, techniques, and approaches for these common client situations.
+
+</ProtectedContent>

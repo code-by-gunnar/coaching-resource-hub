@@ -1,7 +1,10 @@
 ---
 title: Coaching with Timeline
 description: Coaching with Timeline - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Coaching with Timeline
 
@@ -76,3 +79,5 @@ This method allows clients to:
 ## **Final Thoughts**
 
 Timeline Coaching is a **powerful NLP-based technique** that helps clients **release emotional baggage, reframe limiting beliefs, and create a future vision that inspires action**. By working with their **mental perception of time**, clients can **accelerate personal transformation**.
+
+</ProtectedContent>

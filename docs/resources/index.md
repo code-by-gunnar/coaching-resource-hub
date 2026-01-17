@@ -1,7 +1,10 @@
 ---
 title: Coaching Resources
 description: Essential tools, templates, and frameworks for effective coaching
+protected: true
 ---
+
+<ProtectedContent>
 
 # 🛠️ Coaching Resources
 
@@ -51,3 +54,5 @@ New to using coaching resources? Start here:
 ---
 
 *All resources are designed to support professional coaching practices and enhance client outcomes.*
+
+</ProtectedContent>

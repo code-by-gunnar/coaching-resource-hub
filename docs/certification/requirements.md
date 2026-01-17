@@ -1,7 +1,9 @@
 ---
 title: Certification Requirements Guide
 description: Complete breakdown of ICF and AC certification requirements, prerequisites, and pathways to help you plan your journey
+protected: true
 ---
+<ProtectedContent>
 
 # Certification Requirements Guide 📋
 
@@ -273,3 +275,4 @@ This educational guide breaks down the specific requirements used by both major 
 ---
 
 *Remember: Requirements can change. Always verify current requirements with the official certification bodies before beginning your journey.*
+</ProtectedContent>

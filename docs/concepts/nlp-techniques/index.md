@@ -1,7 +1,10 @@
 ---
 title: NLP Techniques
 description: Anchoring, Swish Pattern, and Perceptual Positions
+protected: true
 ---
+
+<ProtectedContent>
 
 # NLP Techniques
 
@@ -33,3 +36,5 @@ By studying these concepts, you will be able to:
 ← Previous: [Foundations & Connection](../foundations-connection/)
 
 → Next: [Solution-Focused Approaches](../solution-focused/)
+
+</ProtectedContent>

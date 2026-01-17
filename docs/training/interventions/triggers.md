@@ -1,7 +1,10 @@
 ---
 title: Recurring negative image or trigger
 description: Recurring negative image or trigger - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Recurring negative image or trigger
 
@@ -71,3 +74,5 @@ The client experiences involuntary mental imagery, flashbacks, or emotional resp
 ---
 
 **Tip:** Use visualization techniques with emotional safety and clarity. If trauma responses are present, consider referring to a therapist.
+
+</ProtectedContent>

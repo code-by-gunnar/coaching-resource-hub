@@ -1,7 +1,10 @@
 ---
 title: Acceptance of a diagnosis
 description: Acceptance of a diagnosis - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Acceptance of a diagnosis
 
@@ -76,3 +79,5 @@ description: Acceptance of a diagnosis - comprehensive guide and resources
 ---
 
 **Tip:** Receiving a diagnosis can feel like both loss and insight. Your coaching space can become a container for processing, reframing, and empowering the client to create a meaningful, values-aligned life.
+
+</ProtectedContent>

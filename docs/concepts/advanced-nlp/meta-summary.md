@@ -1,7 +1,10 @@
 ---
 title: Meta Model Summary
 description: Meta Model Summary - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Meta Model Summary
 
@@ -45,3 +48,5 @@ You're not going to like this |
 Big boys don't cry |
 | Presupposition | We have talked about presuppositions
 You can do this even better |
+
+</ProtectedContent>

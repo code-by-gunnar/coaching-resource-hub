@@ -1,7 +1,10 @@
 ---
 title: Kickstart Coaching Workbook (Legacy)
 description: This workbook has been replaced by our new Interactive Coaching Business Workbook
+protected: true
 ---
+
+<ProtectedContent>
 
 # 🚨 This Workbook Has Been Upgraded!
 
@@ -522,3 +525,5 @@ Print these pages, type into a digital copy, or use a notebook. The more you int
 **[Start with the Interactive Workbook](/docs/profile/interactive-workbook)**
 
 Experience auto-save, progress tracking, and an enhanced business planning journey.
+
+</ProtectedContent>

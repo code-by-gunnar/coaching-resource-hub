@@ -1,7 +1,10 @@
 ---
 title: Struggling with self-confidence
 description: Struggling with self-confidence - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Struggling with self-confidence
 
@@ -75,4 +78,6 @@ The client lacks belief in their abilities, second-guesses themselves, or avoids
 
 ---
 
-**Tip:** Confidence doesn’t require perfection — only action with belief. Your role is to help the client remember who they are, what they’ve already overcome, and what they truly value.
+**Tip:** Confidence doesn't require perfection — only action with belief. Your role is to help the client remember who they are, what they've already overcome, and what they truly value.
+
+</ProtectedContent>

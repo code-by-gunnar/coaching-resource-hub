@@ -1,7 +1,10 @@
 ---
 title: Inner conflict or ambivalence
 description: Inner conflict or ambivalence - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Inner conflict or ambivalence
 
@@ -75,4 +78,6 @@ description: Inner conflict or ambivalence - comprehensive guide and resources
 
 ---
 
-**Tip:** Ambivalence is not indecision — it’s insight waiting to be integrated. Help the client listen to all parts with respect, then choose with clarity.
+**Tip:** Ambivalence is not indecision — it's insight waiting to be integrated. Help the client listen to all parts with respect, then choose with clarity.
+
+</ProtectedContent>

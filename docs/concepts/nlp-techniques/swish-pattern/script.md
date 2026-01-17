@@ -1,7 +1,10 @@
 ---
 title: Swish Pattern Script (Example)
 description: Swish Pattern Script (Example) - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Swish Pattern Script (Example)
 
@@ -102,3 +105,5 @@ This **detailed Swish Pattern script** will guide you through **helping a client
 ✔ The **speed of the Swish** is key—make it FAST and automatic.
 
 ✔ If the client still feels resistance, try **adjusting the clarity, size, and brightness** of the images.
+
+</ProtectedContent>

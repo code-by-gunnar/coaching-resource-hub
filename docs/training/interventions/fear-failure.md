@@ -1,7 +1,10 @@
 ---
 title: Fear of failure or taking risks
 description: Fear of failure or taking risks - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Fear of failure or taking risks
 
@@ -75,4 +78,6 @@ description: Fear of failure or taking risks - comprehensive guide and resources
 
 ---
 
-**Tip:** Help your client recognize that fear is a normal part of growth. The goal isn’t to eliminate fear or self-doubt — it’s to move forward *with* it using tools that build confidence and truth.
+**Tip:** Help your client recognize that fear is a normal part of growth. The goal isn't to eliminate fear or self-doubt — it's to move forward *with* it using tools that build confidence and truth.
+
+</ProtectedContent>

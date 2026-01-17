@@ -1,7 +1,10 @@
 ---
 title: Building the Coaching Connection Script (Example)
 description: Building the Coaching Connection Script (Example) - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Building the Coaching Connection Script (Example)
 
@@ -124,3 +127,5 @@ description: Building the Coaching Connection Script (Example) - comprehensive g
 ✔ Maintain a **non-judgmental and supportive** presence.
 
 ✔ Encourage **client ownership**—they drive the conversation.
+
+</ProtectedContent>

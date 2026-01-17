@@ -1,7 +1,10 @@
 ---
 title: Framing / Reframing
 description: Framing / Reframing - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Framing and Reframing
 
@@ -550,3 +553,5 @@ Complete coaching conversation examples with reframing techniques
 *Credit: Centre for NLP Business Excellence*
 
 **The power to reframe is the power to transform any experience into a catalyst for growth and possibility.**
+
+</ProtectedContent>

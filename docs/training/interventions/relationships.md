@@ -1,7 +1,10 @@
 ---
 title: Facing relationship problems
 description: Facing relationship problems - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Facing relationship problems
 
@@ -76,3 +79,5 @@ description: Facing relationship problems - comprehensive guide and resources
 ---
 
 **Tip:** Hold space without judgment. Relationships are often layered with history and vulnerability. Your role is to provide clarity, tools, and a non-judgmental space for reflection.
+
+</ProtectedContent>

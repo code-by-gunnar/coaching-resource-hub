@@ -1,7 +1,10 @@
 ---
 title: Swish Pattern
 description: Swish Pattern - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Swish Pattern
 
@@ -144,3 +147,5 @@ Complete coaching script with client dialogue and step-by-step instructions
 6. **Test** by accessing original trigger situation
 
 **Remember:** Speed, sub-modalities, and emotional energy are the keys to effectiveness!
+
+</ProtectedContent>

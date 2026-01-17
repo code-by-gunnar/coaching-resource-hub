@@ -1,7 +1,10 @@
 ---
 title: Unwanted behaviour
 description: Unwanted behaviour - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Unwanted behaviour
 
@@ -86,3 +89,5 @@ description: Unwanted behaviour - comprehensive guide and resources
 </div>
 
 *Episode 31 from "In Good Company" with Jo Wheatley and Zoe Hawkins explores cognitive behavioural coaching techniques, demonstrating how to help clients identify and change thought patterns that drive unwanted behaviors.*
+
+</ProtectedContent>

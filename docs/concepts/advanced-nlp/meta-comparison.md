@@ -1,7 +1,10 @@
 ---
 title: Milton and Meta Comparison
 description: Milton and Meta Comparison - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Milton and Meta Comparison
 
@@ -44,5 +47,7 @@ description: Milton and Meta Comparison - comprehensive guide and resources
 *"Your unconscious mind is able to make sense of this..."* | "You're annoyed with me"
 "You're not going to like this" |
 | Lost Performative | *"It's important that you go back to your first memory."*
-*"And it's a good thing to notice...”* | "It's fun to be free"
+*"And it's a good thing to notice..."* | "It's fun to be free"
 "Big boys don't cry" |
+
+</ProtectedContent>

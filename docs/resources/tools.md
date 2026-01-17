@@ -2,7 +2,10 @@
 title: Essential Coaching Tools
 description: >-
   Comprehensive collection of practical coaching tools, assessments, frameworks, and digital resources for professional coaches
+protected: true
 ---
+
+<ProtectedContent>
 
 # Essential Coaching Tools 🔧
 
@@ -823,3 +826,5 @@ Track patterns and identify triggers for different "weather" patterns.
 - **GROW Model Session Guide**
 - **90-Day Sprint Planner**
 - **Progress Tracking Templates**
+
+</ProtectedContent>

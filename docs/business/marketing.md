@@ -1,7 +1,10 @@
 ---
 title: Marketing Guide for New Coaches
 description: Complete marketing strategies and tactics to build your coaching practice
+protected: true
 ---
+
+<ProtectedContent>
 
 # Marketing Guide for New Coaches
 
@@ -208,3 +211,5 @@ Remember: Marketing is a marathon, not a sprint. Focus on building genuine relat
 - [Branding Guide](./branding.md) - Build a memorable coaching brand
 - [Pricing Guide](./pricing.md) - Set profitable coaching rates
 - [Business Forms](./business-forms.md) - Client contracts and agreements
+
+</ProtectedContent>

@@ -1,7 +1,10 @@
 ---
 title: Stuck in the Past or Worried About the Future
 description: Stuck in the Past or Worried About the Future - comprehensive guide and resources
+protected: true
 ---
+
+<ProtectedContent>
 
 # Stuck in the Past or Worried About the Future
 
@@ -72,3 +75,5 @@ These clients may be experiencing regret, trauma, shame, or future-focused anxie
 - "How has this experience shaped who you are becoming?"
 - "What would forgiveness (of yourself or others) look like right now?"
 - "What would you do if you knew it would all work out?"
+
+</ProtectedContent>

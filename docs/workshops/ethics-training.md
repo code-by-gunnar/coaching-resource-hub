@@ -1,7 +1,10 @@
 ---
 title: Ethics in Coaching Workshop - Coming Late 2025
 description: Professional ethics training with real-world scenarios and decision frameworks
+protected: true
 ---
+
+<ProtectedContent>
 
 # Ethics in Coaching Workshop
 
@@ -55,3 +58,5 @@ This workshop will follow the same authentic format as our [Finding Your Niche w
 ---
 
 *All workshops feature authentic coaching conversations and provide genuine insights into professional practice.*
+
+</ProtectedContent>
