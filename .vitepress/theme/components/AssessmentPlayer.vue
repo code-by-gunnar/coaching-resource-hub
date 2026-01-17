@@ -285,7 +285,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useAuth } from '../composables/useAuth.js'
-import { useAssessments, useAssessmentAttempts } from '../composables/useAssessments.js'
+import { useAiAssessments, useAiAssessmentAttempts } from '../composables/useAiAssessments.js'
 import { useBetaAccess } from '../composables/useBetaAccess.js'
 import { useSupabase } from '../composables/useSupabase.js'
 import ActionButton from './shared/ActionButton.vue'
@@ -302,8 +302,8 @@ import {
 // Composables
 const { user } = useAuth()
 const { supabase } = useSupabase()
-const { getAssessmentBySlug, getAssessmentQuestions } = useAssessments()
-const { startAttempt, saveResponse, completeAttempt, abandonAttempt } = useAssessmentAttempts()
+const { getAssessmentBySlug, getAssessmentQuestions, getQuestionsByIds } = useAiAssessments()
+const { startAttempt, saveResponse, completeAttempt, abandonAttempt, getInProgressAttempt } = useAiAssessmentAttempts()
 const { hasBetaAccess, betaAccessMessage } = useBetaAccess(user)
 
 // Reactive state
@@ -346,6 +346,7 @@ const currentQuestion = computed(() => {
         { text: q.option_d }
       ],
       correctAnswer: q.correct_answer,
+      correct_option: q.correct_option, // AI system uses 'a', 'b', 'c', 'd'
       explanation: q.explanation,
       id: q.id
     }
@@ -375,6 +376,7 @@ const displayQuestions = computed(() => {
       { text: q.option_d }
     ],
     correctAnswer: q.correct_answer,
+    correct_option: q.correct_option, // AI system uses 'a', 'b', 'c', 'd'
     explanation: q.explanation
   }))
 })
@@ -464,44 +466,39 @@ const getAssessmentCompetencies = () => {
 
 const startAssessment = async () => {
   try {
-    // Start database attempt
-    const attempt = await startAttempt(user.value.id, currentAssessment.value.id, questions.value.length)
+    // Load fresh randomized questions for a new assessment
+    const assessmentQuestions = await getAssessmentQuestions(currentAssessment.value.id)
+    questions.value = assessmentQuestions
+
+    // Get question IDs for the AI assessment
+    const questionIds = questions.value.map(q => q.id)
+
+    // Start database attempt with AI composable
+    // AI startAttempt expects: (userId, frameworkId, levelId, questionIds)
+    const attempt = await startAttempt(
+      user.value.id,
+      currentAssessment.value.framework_id,
+      currentAssessment.value.level_id,
+      questionIds
+    )
     currentAttemptId.value = attempt.id
     assessmentStartTime.value = Date.now()
-    
+
     // Reset UI state
     started.value = true
     currentQuestionIndex.value = 0
     selectedAnswer.value = null
     questionResults.value = []
     completedScore.value = 0 // Reset completed score for new assessment
-    
-    // Update current_question_index in database to track they're viewing question 1
-    try {
-      
-      await supabase
-        .from('user_assessment_attempts')
-        .update({ 
-          current_question_index: 1,  // They're now viewing question 1
-          last_activity_at: new Date().toISOString(),
-          status: 'in_progress'  // Mark as in_progress when they start viewing questions
-        })
-        .eq('id', currentAttemptId.value)
-        
-      console.log('Set current_question_index to 1 (viewing first question)')
-    } catch (error) {
-      console.error('Error setting initial current question index:', error)
-      // Don't fail the whole flow if this update fails
-    }
-    
+
     // Start session management
     startAutoSave()
     startIdleMonitoring()
     saveSessionState()
-    
-    console.log('Assessment started with session management')
+
+    console.log('AI Assessment started with session management')
   } catch (error) {
-    console.error('Error starting assessment:', error)
+    console.error('Error starting AI assessment:', error)
     alert('Failed to start assessment. Please try again.')
   }
 }
@@ -513,50 +510,37 @@ const selectAnswer = (index) => {
 
 const submitAnswer = async () => {
   if (selectedAnswer.value === null) return
-  
+
   // Prevent double submission
   if (questionResults.value.some(r => r.questionIndex === currentQuestionIndex.value)) {
     console.log('Question already answered, skipping...')
     return
   }
-  
-  const questionStartTime = Date.now() - (questionResults.value.length === 0 ? assessmentStartTime.value : questionResults.value[questionResults.value.length - 1]?.timestamp || assessmentStartTime.value)
-  const responseTime = Math.round(questionStartTime / 1000) // Convert to seconds
-  
+
   try {
-    // 🔥 PURGED: No more frontend answer validation!
-    // Database triggers will determine correctness based on proper answer_options relationships
-    console.log('🔍 ANSWER SUBMISSION - Database will validate correctness:')
+    // Convert letter (A, B, C, D) to lowercase option key (a, b, c, d) for AI system
+    const selectedOption = selectedAnswer.value.toLowerCase()
+
+    console.log('🔍 AI ANSWER SUBMISSION:')
     console.log('  - Question:', currentQuestionIndex.value + 1)
-    console.log('  - Selected answer letter:', selectedAnswer.value)
-    console.log('  - Database will determine correctness via triggers')
-    
-    // We don't know if it's correct yet - database will tell us
-    const isCorrect = null // Database will determine this
-    
-    // Save response to database (database trigger will set correctness)
+    console.log('  - Selected option:', selectedOption)
+
+    // Save response using AI composable (stores in JSONB answers field)
     await saveResponse(
       currentAttemptId.value,
       currentQuestion.value.id,
-      selectedAnswer.value,
-      isCorrect, // This parameter is ignored - kept for compatibility
-      responseTime
+      selectedOption
     )
-    
-    // Fetch the database-determined correctness immediately
-    const { data: dbResponse } = await supabase
-      .from('user_question_responses')
-      .select('is_correct')
-      .eq('attempt_id', currentAttemptId.value)
-      .eq('question_id', currentQuestion.value.id)
-      .single()
-    
-    console.log('🎯 Database determined correctness:', dbResponse?.is_correct)
-    
-    // Record the result locally with database-determined correctness
+
+    // Determine correctness locally (AI system stores correct_option as 'a', 'b', 'c', 'd')
+    const isCorrect = selectedOption === currentQuestion.value.correct_option
+
+    console.log('🎯 Answer correctness:', isCorrect)
+
+    // Record the result locally
     questionResults.value.push({
       selectedAnswer: selectedAnswer.value,
-      correct: dbResponse?.is_correct || false,
+      correct: isCorrect,
       timestamp: Date.now(),
       questionIndex: currentQuestionIndex.value
     })
@@ -565,68 +549,31 @@ const submitAnswer = async () => {
     if (currentQuestionIndex.value < questions.value.length - 1) {
       currentQuestionIndex.value++
       selectedAnswer.value = null
-      
-      // Update current_question_index in database to store the question they're now viewing
-      try {
-        const { data, error } = await supabase
-          .from('user_assessment_attempts')
-          .update({ 
-            current_question_index: currentQuestionIndex.value + 1,  // Store as 1-based (question they're currently viewing)
-            last_activity_at: new Date().toISOString(),
-            status: 'in_progress'  // Mark as in_progress once they've answered questions
-          })
-          .eq('id', currentAttemptId.value)
-          .select()
-          
-        if (error) {
-          console.error('Supabase error updating current question index:', error)
-          // Check if attempt doesn't exist
-          if (error.message?.includes('0 rows') || error.code === 'PGRST116') {
-            console.warn('Assessment attempt no longer exists, clearing stale state')
-            // Clear stale state and redirect to assessments
-            currentAttemptId.value = null
-            window.location.href = '/docs/assessments/'
-            return
-          }
-        } else {
-          console.log(`Updated current_question_index to ${currentQuestionIndex.value + 1} (viewing question ${currentQuestionIndex.value + 1})`)
-        }
-      } catch (error) {
-        console.error('Error updating current question index:', error)
-        // Don't fail the whole flow if this update fails
-      }
+      console.log(`Moving to question ${currentQuestionIndex.value + 1}`)
     } else {
       // Complete assessment
       try {
-        const totalTime = Math.round((Date.now() - assessmentStartTime.value) / 1000)
-        console.log('About to complete assessment with total time:', totalTime)
+        console.log('About to complete AI assessment')
         console.log('Current attempt ID:', currentAttemptId.value)
         console.log('Questions answered:', questionResults.value.length)
-        
-        // 🔥 PURGED: No more frontend score calculation!
-        // The database will calculate the correct score via triggers
-        console.log('🔍 FRONTEND CALCULATION PURGED - Database will handle scoring')
-        
-        const result = await completeAttempt(currentAttemptId.value, totalTime)
+
+        // AI completeAttempt calculates scores via database function
+        const result = await completeAttempt(currentAttemptId.value)
         console.log('Complete attempt returned:', result)
-        console.log('🔍 DATABASE SCORE (source of truth):', result?.score)
-        
+        console.log('🔍 DATABASE SCORE (source of truth):', result?.score_percentage)
+
         // Store the database-calculated score for immediate display
-        completedScore.value = result?.score || 0
-        
-        // 🎯 Database trigger check_answer_correctness_v4 handles correctness automatically!
-        
+        completedScore.value = result?.score_percentage || 0
+
         // Clear session data on completion (but keep currentAttemptId for detailed results)
         clearSessionData()
-        
+
         completed.value = true
-        // Don't clear currentAttemptId - we need it for detailed results button
-        console.log('Assessment completed successfully! completed.value is now:', completed.value)
+        console.log('AI Assessment completed successfully!')
       } catch (completionError) {
-        console.error('Error completing assessment:', completionError)
-        console.error('Completion error details:', JSON.stringify(completionError, null, 2))
+        console.error('Error completing AI assessment:', completionError)
         alert('Failed to complete assessment. Please try again.')
-        return // Don't proceed if completion fails
+        return
       }
     }
   } catch (error) {
@@ -636,13 +583,8 @@ const submitAnswer = async () => {
 }
 
 const viewDetailedResults = () => {
-  console.log('viewDetailedResults called with currentAttemptId:', currentAttemptId.value)
   if (currentAttemptId.value) {
-    const resultsUrl = `/docs/assessments/results?attempt=${currentAttemptId.value}`
-    console.log('Redirecting to:', resultsUrl)
-    window.location.href = resultsUrl
-  } else {
-    console.error('No currentAttemptId available for detailed results')
+    window.location.href = `/docs/assessments/results?attempt=${currentAttemptId.value}`
   }
 }
 
@@ -679,37 +621,25 @@ const prevReviewPage = () => {
 // Session Management Functions
 const checkForIncompleteAssessment = async () => {
   if (!user.value || !currentAssessment.value) return false
-  
+
   try {
-    // Check for in-progress attempt for this assessment
-    const { data: incompleteAttempts, error } = await supabase
-      .from('user_assessment_attempts')
-      .select('*, user_question_responses(*)')
-      .eq('user_id', user.value.id)
-      .eq('assessment_id', currentAssessment.value.id)
-      .eq('status', 'in_progress')
-      .order('started_at', { ascending: false })
-      .limit(1)
-    
-    if (error) {
-      console.error('Error checking incomplete assessments:', error)
-      return false
-    }
-    
-    if (incompleteAttempts && incompleteAttempts.length > 0) {
-      const attempt = incompleteAttempts[0]
+    // Use AI composable to check for in-progress attempt
+    const attempt = await getInProgressAttempt(user.value.id, currentAssessment.value.level_id)
+
+    if (attempt) {
+      const answeredCount = Object.keys(attempt.answers || {}).length
       resumeData.value = {
         attemptId: attempt.id,
-        completedQuestions: attempt.user_question_responses?.length || 0,
+        completedQuestions: answeredCount,
         startedAt: attempt.started_at,
-        totalQuestions: attempt.total_questions
+        totalQuestions: attempt.questions_served?.length || 0
       }
       return true
     }
-    
+
     return false
   } catch (error) {
-    console.error('Error checking incomplete assessments:', error)
+    console.error('Error checking incomplete AI assessments:', error)
     return false
   }
 }
@@ -717,57 +647,65 @@ const checkForIncompleteAssessment = async () => {
 const resumeAssessment = async () => {
   try {
     // This function is now only called when action=continue
-    
-    // Get the most recent incomplete attempt
-    const { data: incompleteAttempts, error: fetchError } = await supabase
-      .from('user_assessment_attempts')
-      .select('*, user_question_responses(*)')
-      .eq('user_id', user.value.id)
-      .eq('assessment_id', currentAssessment.value.id)
-      .eq('status', 'in_progress')
-      .order('started_at', { ascending: false })
-      .limit(1)
-    
-    if (fetchError) throw fetchError
-    
-    if (!incompleteAttempts || incompleteAttempts.length === 0) {
+    // Use AI composable to get in-progress attempt
+    const attempt = await getInProgressAttempt(user.value.id, currentAssessment.value.level_id)
+
+    if (!attempt) {
       // No incomplete assessment found, start fresh
-      console.log('No incomplete assessment found, starting fresh...')
+      console.log('No incomplete AI assessment found, starting fresh...')
       await startAssessment()
       return
     }
-    
-    const attempt = incompleteAttempts[0]
+
+    // CRITICAL: Load questions in the saved order from questions_served
+    // This ensures the same questions appear in the same order as when the attempt started
+    const savedQuestions = await getQuestionsByIds(attempt.questions_served)
+    questions.value = savedQuestions
+
+    console.log(`Loaded ${savedQuestions.length} questions from saved order`)
+
     currentAttemptId.value = attempt.id
     assessmentStartTime.value = new Date(attempt.started_at).getTime()
-    
-    // Reconstruct questionResults from saved responses
-    questionResults.value = attempt.user_question_responses.map((response, index) => ({
-      questionIndex: index,
-      selectedAnswer: response.selected_answer,
-      correct: response.is_correct,
-      timestamp: Date.now()
-    }))
-    
-    // Use the stored current_question_index for precise navigation
-    currentQuestionIndex.value = attempt.current_question_index !== null 
-      ? attempt.current_question_index - 1  // Convert from 1-based to 0-based
-      : attempt.user_question_responses.length
-      
-    console.log(`Resuming at question ${currentQuestionIndex.value + 1}`)
-    
+
+    // Reconstruct questionResults from saved answers (JSONB format)
+    // Use the questions_served order to maintain correct indices
+    const answeredQuestionIds = new Set(Object.keys(attempt.answers || {}))
+    questionResults.value = []
+
+    // Process questions in their saved order
+    attempt.questions_served.forEach((questionId, index) => {
+      if (answeredQuestionIds.has(questionId)) {
+        const selectedOption = attempt.answers[questionId]
+        // Find the question to check correctness
+        const question = questions.value.find(q => q.id === questionId)
+        const isCorrect = question ? selectedOption === question.correct_option : false
+
+        questionResults.value.push({
+          questionIndex: index,
+          selectedAnswer: selectedOption.toUpperCase(), // Convert back to A, B, C, D
+          correct: isCorrect,
+          timestamp: Date.now()
+        })
+      }
+    })
+
+    // Resume at the next unanswered question (based on how many were answered)
+    currentQuestionIndex.value = questionResults.value.length
+
+    console.log(`Resuming AI assessment at question ${currentQuestionIndex.value + 1} of ${questions.value.length}`)
+
     // Start the assessment UI at the correct question
     started.value = true
     selectedAnswer.value = null
     completedScore.value = 0 // Reset completed score for resumed assessment
-    
+
     // Start auto-save and idle monitoring
     startAutoSave()
     startIdleMonitoring()
-    
-    console.log('Assessment resumed successfully')
+
+    console.log('AI Assessment resumed successfully')
   } catch (error) {
-    console.error('Error resuming assessment:', error)
+    console.error('Error resuming AI assessment:', error)
     // If resume fails, start fresh
     await startAssessment()
   }
@@ -776,12 +714,10 @@ const resumeAssessment = async () => {
 
 const markAttemptAbandoned = async (attemptId) => {
   try {
-    await supabase
-      .from('user_assessment_attempts')
-      .update({ status: 'abandoned' })
-      .eq('id', attemptId)
+    // AI system deletes incomplete attempts rather than marking status
+    await abandonAttempt(attemptId)
   } catch (error) {
-    console.error('Error marking attempt as abandoned:', error)
+    console.error('Error abandoning AI attempt:', error)
   }
 }
 
@@ -886,17 +822,17 @@ const confirmExit = async () => {
     // User has answered questions - save current state for resumption
     saveSessionState()
   }
-  
+
   // Clear timers but keep session data
   if (autoSaveInterval.value) {
     clearInterval(autoSaveInterval.value)
     autoSaveInterval.value = null
   }
   if (idleTimer.value) {
-    clearTimeout(idleTimer.value) 
+    clearTimeout(idleTimer.value)
     idleTimer.value = null
   }
-  
+
   // Close dialog and redirect to assessments page
   showExitDialog.value = false
   window.location.href = '/docs/assessments/'
@@ -912,52 +848,51 @@ onMounted(async () => {
   const hash = window.location.hash.substring(1)
   const urlParams = new URLSearchParams(window.location.search)
   const action = urlParams.get('action') // 'take', 'continue', 'retake'
-  
+
   if (hash) {
     // Show loading modal
     loading.value = true
-    
+
     try {
-      // Load assessment data from database
+      // Load assessment metadata from database (NOT questions yet)
       const assessment = await getAssessmentBySlug(hash)
       if (!assessment) {
         console.error('Assessment not found:', hash)
         return
       }
-      
+
       currentAssessment.value = assessment
-      
-      // Load questions for this assessment
-      const assessmentQuestions = await getAssessmentQuestions(assessment.id)
-      questions.value = assessmentQuestions
-      
-      console.log('Loaded assessment:', assessment.title, 'with', assessmentQuestions.length, 'questions')
+
+      // NOTE: Questions are NOT loaded here - they are loaded in startAssessment() or resumeAssessment()
+      // This prevents question randomization before we know if we're resuming or starting fresh
+
+      console.log('Loaded assessment metadata:', assessment.title)
       console.log('Action parameter:', action)
-      
+
       if (user.value && hasBetaAccess.value && !completed.value) {
         // Handle different actions based on URL parameter
         if (action === 'continue') {
           // User wants to continue - check for incomplete assessment
           const hasIncomplete = await checkForIncompleteAssessment()
           if (hasIncomplete) {
-            // Auto-resume without showing dialog
+            // Auto-resume without showing dialog - resumeAssessment loads saved questions
             console.log('Auto-resuming assessment...')
             await resumeAssessment()
           } else {
-            // No incomplete assessment found, start new one
+            // No incomplete assessment found, start new one - startAssessment loads fresh questions
             console.log('No incomplete assessment found, starting new one...')
             await startAssessment()
           }
         } else if (action === 'retake') {
-          // User wants to retake - start fresh assessment immediately
+          // User wants to retake - start fresh assessment immediately with new questions
           console.log('Starting retake assessment...')
           await startAssessment()
         } else if (action === 'take') {
-          // User wants to take assessment - always start fresh with take action
+          // User wants to take assessment - always start fresh with new questions
           console.log('Starting new assessment with take action...')
           await startAssessment()
         } else {
-          // No action parameter - start new assessment directly 
+          // No action parameter - start new assessment directly
           console.log('No action parameter - starting new assessment')
           await startAssessment()
         }
@@ -973,7 +908,7 @@ onMounted(async () => {
         // Assessment already completed
         console.log('Assessment already completed')
       }
-      
+
     } catch (error) {
       console.error('Error loading assessment:', error)
     }
@@ -989,7 +924,7 @@ onMounted(async () => {
     window.location.href = '/docs/assessments/'
     return
   }
-  
+
   // Assessment loading complete
   loading.value = false
   

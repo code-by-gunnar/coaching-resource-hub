@@ -90,32 +90,145 @@
           </div>
         </div>
 
+        <!-- Competency Breakdown Card - Moved to top -->
+        <div v-if="competencyStats.length > 0" class="competency-breakdown-card">
+          <div class="breakdown-card-header">
+            <span class="card-icon">📊</span>
+            <h3>Competency Breakdown</h3>
+          </div>
+          <div class="competency-grid">
+            <div
+              v-for="stat in competencyStats"
+              :key="stat.area"
+              class="competency-card"
+              :class="getCompetencyClass(stat.percentage)"
+            >
+              <div class="competency-card-header">
+                <span class="competency-name">{{ stat.area }}</span>
+                <span class="competency-badge" :class="getCompetencyClass(stat.percentage)">
+                  {{ stat.percentage }}%
+                </span>
+              </div>
+              <div class="competency-bar">
+                <div class="competency-fill" :style="{ width: stat.percentage + '%' }"></div>
+              </div>
+              <div class="competency-stats">
+                <span class="correct-count">{{ stat.correct }}/{{ stat.total }} correct</span>
+                <span class="status-label">{{ getCompetencyLabel(stat.percentage) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Results Overview Note -->
         <div class="results-note">
           <p>
-            <ChartBarSquareIcon class="inline-icon" aria-hidden="true" /> <strong>Results Summary:</strong> This page provides an overview of your performance. 
-            For comprehensive analysis including detailed question breakdowns, coaching scenarios, and personalized development plans, 
+            <ChartBarSquareIcon class="inline-icon" aria-hidden="true" /> <strong>Results Summary:</strong> This page provides an overview of your performance.
+            For comprehensive analysis including detailed question breakdowns, coaching scenarios, and personalized development plans,
             <strong>download your full PDF report using the email button above.</strong>
           </p>
         </div>
 
-        <!-- Smart Skills Analysis -->
-        <AssessmentInsights 
-          :competency-stats="competencyStats"
-          :personalized-analysis="personalizedCompetencyAnalysis"
-          :assessment-framework="selectedAttempt.attempt?.assessments?.framework || selectedAttempt.assessments?.framework"
-        />
+        <!-- AI-Generated Analysis Report -->
+        <div class="ai-report-section">
+          <div class="ai-report-header">
+            <h3>AI-Powered Analysis</h3>
+            <p v-if="!aiReport">Get personalized insights and recommendations based on your specific answers.</p>
+          </div>
 
-        <!-- Tiered Learning Recommendations -->
-        <div class="learning-path-section">
-          <LearningRecommendations 
-            :competency-stats="competencyStats"
-            :overall-score="selectedAttempt.attempt?.score ?? selectedAttempt.score ?? 0"
-            :user-id="user?.id"
-            :assessment-id="selectedAttempt.attempt?.assessment_id || selectedAttempt.assessment_id"
-            :attempt-id="selectedAttempt.attempt?.id || selectedAttempt.id"
-          />
+          <!-- Generate Report Button -->
+          <div v-if="!aiReport && !aiReportLoading" class="generate-report-action">
+            <button @click="handleGenerateReport" class="generate-report-btn">
+              Generate AI Report
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div v-if="aiReportLoading" class="ai-report-loading">
+            <div class="loading-spinner"></div>
+            <p>Analyzing your responses and generating personalized insights...</p>
+          </div>
+
+          <!-- Error State -->
+          <div v-if="aiReportError && !aiReportLoading" class="ai-report-error">
+            <p>{{ aiReportError }}</p>
+            <button @click="handleGenerateReport" class="retry-btn">Try Again</button>
+          </div>
+
+          <!-- AI Report Content - Card-Based Layout -->
+          <div v-if="aiReport && !aiReportLoading" class="ai-report-content">
+            <div class="report-metadata">
+              <span v-if="aiReport.cached" class="report-cached-badge">Previously generated report</span>
+              <span v-if="aiReport.fallback" class="report-fallback-badge">Basic Report</span>
+            </div>
+
+            <!-- Structured Report Cards -->
+            <div v-if="hasParsedSections" class="report-sections">
+              <!-- Overall Assessment -->
+              <div v-if="parsedReport.overall" class="report-card overall-card">
+                <div class="card-header">
+                  <span class="card-icon">📊</span>
+                  <h4>Overall Assessment</h4>
+                </div>
+                <div class="card-content" v-html="formatReportContent(parsedReport.overall)"></div>
+              </div>
+
+              <!-- Strength Areas -->
+              <div v-if="parsedReport.strengths" class="report-card strengths-card">
+                <div class="card-header">
+                  <span class="card-icon">✨</span>
+                  <h4>Strength Areas</h4>
+                </div>
+                <div class="card-content" v-html="formatReportContent(parsedReport.strengths)"></div>
+              </div>
+
+              <!-- Development Areas -->
+              <div v-if="parsedReport.development" class="report-card development-card">
+                <div class="card-header">
+                  <span class="card-icon">🎯</span>
+                  <h4>Development Areas</h4>
+                </div>
+                <div class="card-content" v-html="formatReportContent(parsedReport.development)"></div>
+              </div>
+
+              <!-- Cross-Competency Insights -->
+              <div v-if="parsedReport.crossCompetency" class="report-card insights-card">
+                <div class="card-header">
+                  <span class="card-icon">🔗</span>
+                  <h4>Cross-Competency Insights</h4>
+                </div>
+                <div class="card-content" v-html="formatReportContent(parsedReport.crossCompetency)"></div>
+              </div>
+
+              <!-- Progress Notes -->
+              <div v-if="parsedReport.progress" class="report-card progress-card">
+                <div class="card-header">
+                  <span class="card-icon">📈</span>
+                  <h4>Progress Notes</h4>
+                </div>
+                <div class="card-content" v-html="formatReportContent(parsedReport.progress)"></div>
+              </div>
+
+              <!-- Priority Focus -->
+              <div v-if="parsedReport.priority" class="report-card priority-card">
+                <div class="card-header">
+                  <span class="card-icon">🚀</span>
+                  <h4>Priority Focus</h4>
+                </div>
+                <div class="card-content" v-html="formatReportContent(parsedReport.priority)"></div>
+              </div>
+            </div>
+
+            <!-- Fallback: Raw markdown if parsing fails -->
+            <div v-else class="report-fallback">
+              <div class="fallback-notice">
+                <span>📄</span> Report content
+              </div>
+              <div class="report-markdown" v-html="renderMarkdown(aiReport.content)"></div>
+            </div>
+          </div>
         </div>
+
       </div>
 
       <!-- Next Steps Section -->
@@ -214,30 +327,51 @@
         </div>
 
         <div class="attempts-grid">
-          <div 
-            v-for="attempt in paginatedUserAttempts" 
+          <div
+            v-for="attempt in paginatedUserAttempts"
             :key="attempt.id"
-            class="history-item"
+            class="assessment-card"
+            :class="{ 'in-progress': attempt.status !== 'completed' }"
           >
-            <div class="item-header">
-              <AssessmentBadge 
-                :framework="attempt.framework" 
+            <div class="card-top">
+              <AssessmentBadge
+                :framework="attempt.framework"
                 :difficulty="attempt.difficulty"
-                size="mini"
+                size="small"
               />
-              <div class="item-title">{{ attempt.assessment_title }}</div>
+              <span class="card-date">{{ formatDate(attempt.status === 'completed' ? attempt.completed_at : attempt.started_at) }}</span>
             </div>
-            <div class="item-info-group">
-              <div class="item-date">{{ formatDate(attempt.status === 'completed' ? attempt.completed_at : attempt.started_at) }}</div>
-              <div v-if="attempt.status === 'completed'" class="item-result" :class="getScoreClass(attempt.score)">
-                {{ attempt.score ?? 0 }}% • {{ getScoreLabel(attempt.score ?? 0) }}
-              </div>
-              <div v-else class="item-result in-progress">
-                In Progress • Question {{ attempt.current_question_index || 1 }} of {{ attempt.total_questions }}
-              </div>
+
+            <div class="card-body">
+              <h4 class="card-title">{{ attempt.assessment_title }}</h4>
+              <p class="card-framework">{{ attempt.framework_name }}</p>
             </div>
-            <button v-if="attempt.status === 'completed'" @click="selectAttempt(attempt.id)" class="view-results-btn">View Results</button>
-            <button v-else @click="continueAssessment(attempt)" class="continue-btn">Continue</button>
+
+            <div class="card-footer">
+              <div v-if="attempt.status === 'completed'" class="score-display" :class="getScoreClass(attempt.score)">
+                <div class="score-info">
+                  <div class="score-value">
+                    <span class="score-number">{{ Math.round(attempt.score ?? 0) }}</span>
+                    <span class="score-percent">%</span>
+                  </div>
+                  <span class="score-label">{{ getScoreLabel(attempt.score ?? 0) }}</span>
+                </div>
+                <div class="score-bar-container">
+                  <div class="score-bar" :style="{ width: `${Math.round(attempt.score ?? 0)}%` }"></div>
+                </div>
+              </div>
+              <div v-else class="progress-display">
+                <span class="progress-text">In Progress</span>
+                <span class="progress-detail">Question {{ attempt.current_question_index || 1 }}/{{ attempt.total_questions }}</span>
+              </div>
+
+              <button v-if="attempt.status === 'completed'" @click="selectAttempt(attempt.id)" class="view-results-btn">
+                View Results
+              </button>
+              <button v-else @click="continueAssessment(attempt)" class="continue-btn">
+                Continue
+              </button>
+            </div>
           </div>
         </div>
         
@@ -331,7 +465,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, watchEffect } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import {
   ClipboardDocumentCheckIcon,
   ChartBarSquareIcon,
@@ -341,19 +475,14 @@ import {
 } from '@heroicons/vue/24/outline'
 import { useAuth } from '../composables/useAuth.js'
 import { useSupabase } from '../composables/useSupabase.js'
-import { useAssessmentResults } from '../composables/useAssessments.js'
-import { useAssessmentInsights } from '../composables/useAssessmentInsights.js'
-import { useFrontendInsightsCapture } from '../composables/useFrontendInsightsCapture.js'
-import { usePersonalizedInsights } from '../composables/usePersonalizedInsights.js'
+import { useAiAssessmentAttempts, useAiAssessmentResults } from '../composables/useAiAssessments.js'
 import { useBetaAccess } from '../composables/useBetaAccess.js'
-import { getUserFriendlyError, formatErrorForUI } from '../composables/useUserFriendlyErrors.js'
 
 // Composables
 const { user } = useAuth()
 const { supabase } = useSupabase()
-const { getAttemptResults } = useAssessmentResults()
-const { captureAndStoreFrontendInsights } = useFrontendInsightsCapture()
-const { generatePersonalizedCompetencyAnalysis } = usePersonalizedInsights()
+const { getUserAttempts } = useAiAssessmentAttempts()
+const { getAttemptResults, generateAiReport, getCachedReport, clearAiReport, aiReport, aiReportLoading, aiReportError } = useAiAssessmentResults()
 const { hasBetaAccess, betaAccessMessage } = useBetaAccess(user)
 
 // Reactive state
@@ -371,65 +500,35 @@ const questionsPerPage = 10
 const historyCurrentPage = ref(1)
 const historyItemsPerPage = ref(5) // Start with 5 items per page for compact display
 
-// Load user's assessment attempts
+// Load user's assessment attempts from AI system
 const loadUserAttempts = async () => {
   if (!user.value) return
-  
-  loading.value = true
-  
-  try {
-    const { useSupabase } = await import('../composables/useSupabase.js')
-    const { supabase } = useSupabase()
 
-    const { data: attemptsData, error: attemptsError } = await supabase
-      .from('user_assessment_attempts')
-      .select(`
-        id, 
-        assessment_id, 
-        status, 
-        score, 
-        completed_at, 
-        started_at, 
-        time_spent, 
-        enriched_data, 
-        current_question_index, 
-        total_questions, 
-        assessments!inner(
-          title, 
-          slug, 
-          framework_id,
-          assessment_level_id,
-          frameworks(code),
-          assessment_levels(level_code)
-        )
-      `)
-      .eq('user_id', user.value.id)
-      .in('status', ['completed', 'in_progress'])
-      .order('started_at', { ascending: false })
-    
-    if (attemptsError) {
-      console.error('Error loading assessment results:', attemptsError)
-      throw attemptsError
-    }
-    
-    // Transform data to expected format
+  loading.value = true
+
+  try {
+    // Use AI composable to get attempts
+    const attemptsData = await getUserAttempts(user.value.id)
+
+    // Transform AI attempt data to expected format
     userAttempts.value = (attemptsData || []).map(attempt => ({
       id: attempt.id,
-      assessment_id: attempt.assessment_id,
-      assessment_title: attempt.assessments?.title || 'Unknown Assessment',
-      assessment_slug: attempt.assessments?.slug || '',
-      framework: attempt.assessments?.frameworks?.code || 'core',
-      difficulty: attempt.assessments?.assessment_levels?.level_code || 'beginner',
-      status: attempt.status,
-      score: attempt.score,
+      assessment_id: attempt.level_id,
+      assessment_title: attempt.level?.name || 'Assessment',
+      framework_name: attempt.level?.framework?.name || 'Core Coaching',
+      assessment_slug: `${attempt.level?.framework?.code || 'core'}-${attempt.level?.level_code || 'beginner'}`,
+      framework: attempt.level?.framework?.code || 'core',
+      difficulty: attempt.level?.level_code || 'beginner',  // Use level_code for badge (beginner/intermediate/advanced)
+      status: attempt.completed_at ? 'completed' : 'in_progress',
+      score: attempt.score_percentage,
       completed_at: attempt.completed_at,
       started_at: attempt.started_at,
-      time_spent: attempt.time_spent,
-      current_question_index: attempt.current_question_index,
-      total_questions: attempt.total_questions || 0,
-      attempt_number: 1 // Since we're getting the most recent
+      time_spent: null, // AI system doesn't track time_spent
+      current_question_index: attempt.answers ? Object.keys(attempt.answers).length : 0,
+      total_questions: attempt.questions_served?.length || 0,
+      attempt_number: 1
     }))
-    
+
   } catch (err) {
     console.error('Error loading user attempts:', err)
   } finally {
@@ -440,6 +539,10 @@ const loadUserAttempts = async () => {
 // Select and load detailed attempt results
 const selectAttempt = async (attemptId) => {
   loading.value = true
+
+  // Clear any previous AI report when switching attempts
+  clearAiReport()
+
   try {
     console.log('🔍 selectAttempt called with attemptId:', attemptId)
     const results = await getAttemptResults(attemptId)
@@ -448,11 +551,18 @@ const selectAttempt = async (attemptId) => {
     console.log('🔍 results.attempt.score:', results.attempt?.score)
     selectedAttempt.value = results
     console.log('🔍 selectedAttempt.value set to:', selectedAttempt.value)
-    
+
     // Update URL to include attempt parameter for refresh preservation
     const currentUrl = new URL(window.location)
     currentUrl.searchParams.set('attempt', attemptId)
     window.history.pushState({}, '', currentUrl)
+
+    // Auto-load cached AI report if available for this specific attempt
+    try {
+      await getCachedReport(attemptId)
+    } catch (e) {
+      // Ignore errors - user can manually generate report
+    }
   } catch (err) {
     console.error('Error loading attempt results:', err)
   } finally {
@@ -494,23 +604,42 @@ const totalPages = computed(() => {
 })
 
 const competencyStats = computed(() => {
+  // First, check if we have competency_scores from the AI system
+  const aiCompetencyScores = selectedAttempt.value?.attempt?.competency_scores ||
+                            selectedAttempt.value?.competency_scores ||
+                            selectedAttempt.value?.competencyScores
+
+  if (aiCompetencyScores && Object.keys(aiCompetencyScores).length > 0) {
+    // Use pre-calculated scores from AI system
+    return Object.entries(aiCompetencyScores)
+      .map(([area, stats]) => ({
+        area,
+        correct: stats.correct || 0,
+        total: stats.total || 0,
+        percentage: Math.round(stats.percentage || 0)
+      }))
+      .sort((a, b) => b.percentage - a.percentage)
+  }
+
+  // Fallback: Calculate from responses (legacy system)
   if (!selectedAttempt.value?.responses) return []
-  
+
   const competencies = {}
   selectedAttempt.value.responses.forEach(response => {
-    const area = response.assessment_questions.competency_area
+    // AI system uses response.question.competency_area
+    const area = response.question?.competency_area
     if (!area) return
-    
+
     if (!competencies[area]) {
       competencies[area] = { correct: 0, total: 0 }
     }
-    
+
     competencies[area].total++
     if (response.is_correct) {
       competencies[area].correct++
     }
   })
-  
+
   return Object.entries(competencies)
     .map(([area, stats]) => ({
       area,
@@ -521,55 +650,13 @@ const competencyStats = computed(() => {
     .sort((a, b) => b.percentage - a.percentage)
 })
 
-// Personalized competency analysis with detailed insights based on actual performance
+// For AI system, we use AI-generated reports instead of frontend insights
 const personalizedCompetencyAnalysis = ref([])
 
-// Watch for changes and update analysis asynchronously
-watchEffect(async () => {
-  if (!selectedAttempt.value?.responses || !competencyStats.value?.length) {
-    personalizedCompetencyAnalysis.value = []
-    return
-  }
-  
-  try {
-    // CRITICAL: Ensure database cache is loaded before generating analysis
-    console.log('🔄 Ensuring database cache is loaded before generating personalized analysis...')
-    const cacheLoaded = await ensureCacheLoaded()
-    
-    if (!cacheLoaded) {
-      console.error('❌ Database cache failed to load - personalized analysis will be limited')
-      personalizedCompetencyAnalysis.value = []
-      return
-    }
-    
-    console.log('✅ Database cache confirmed loaded - proceeding with personalized analysis')
-    const difficulty = selectedAttempt.value?.attempt?.assessments?.difficulty || 'Beginner'
-    const analysis = await generatePersonalizedCompetencyAnalysis(
-      competencyStats.value,
-      selectedAttempt.value.responses,
-      assessmentFramework.value,
-      difficulty,
-      getSkillTags,
-      getTagInsight,
-      getTagActionableStep
-    )
-    personalizedCompetencyAnalysis.value = analysis
-  } catch (error) {
-    console.error('Error generating personalized analysis:', error)
-    personalizedCompetencyAnalysis.value = []
-  }
-})
-
-
-// Use insights composable for helper functions
+// Assessment framework computed
 const assessmentFramework = computed(() => {
   return selectedAttempt.value?.attempt?.assessments?.framework || selectedAttempt.value?.assessments?.framework || 'core'
 })
-
-const { mapCompetencyToSkill, getKeyConceptFromQuestion, getLessonFromMistake, getSkillTags, getTagInsight, getTagActionableStep, ensureCacheLoaded } = useAssessmentInsights(
-  competencyStats,
-  assessmentFramework
-)
 
 // Question detail methods
 const toggleQuestionDetail = (questionId) => {
@@ -581,36 +668,7 @@ const toggleQuestionDetail = (questionId) => {
   }
 }
 
-// Capture frontend insights when data is available
-const insightsCaptureCalled = ref(false)
-watch([selectedAttempt, competencyStats, assessmentFramework], async ([attempt, stats, framework]) => {
-  // Only capture if we have all the data, user is logged in, and we haven't already captured
-  if (
-    attempt && 
-    stats && stats.length > 0 && 
-    framework && 
-    user.value && 
-    !insightsCaptureCalled.value
-  ) {
-    try {
-      insightsCaptureCalled.value = true
-      console.log('🎯 Capturing frontend-generated insights...')
-      
-      await captureAndStoreFrontendInsights(
-        selectedAttempt.value.attempt?.id || selectedAttempt.value.id,
-        { value: stats },
-        { value: framework },
-        { value: attempt }
-      )
-      
-      console.log('✅ Frontend insights captured and stored')
-      
-    } catch (error) {
-      console.error('🚨 Failed to capture frontend insights:', error)
-      // Don't block the UI if insights capture fails
-    }
-  }
-}, { deep: true })
+// AI system uses AI-generated reports - no frontend insights capture needed
 
 
 // Overall statistics for the main results page
@@ -751,10 +809,205 @@ const formatTime = (seconds) => {
 const getQuestionOptions = (question) => {
   return [
     question.option_a,
-    question.option_b, 
+    question.option_b,
     question.option_c,
     question.option_d
   ]
+}
+
+// AI Report functions
+const handleGenerateReport = async () => {
+  const attemptId = selectedAttempt.value?.attempt?.id || selectedAttempt.value?.id
+  if (!attemptId) return
+
+  try {
+    // First check for cached report
+    const cached = await getCachedReport(attemptId)
+    if (cached) {
+      console.log('Using cached AI report')
+      return
+    }
+
+    // Generate new report
+    await generateAiReport(attemptId)
+  } catch (err) {
+    console.error('Error generating AI report:', err)
+  }
+}
+
+// Simple markdown to HTML renderer for AI reports (legacy fallback)
+const renderMarkdown = (markdown) => {
+  if (!markdown) return ''
+
+  return markdown
+    // Headers
+    .replace(/^### (.*$)/gim, '<h4>$1</h4>')
+    .replace(/^## (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^# (.*$)/gim, '<h2>$1</h2>')
+    // Bold
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Lists
+    .replace(/^\s*[-*]\s+(.*$)/gim, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    // Numbered lists
+    .replace(/^\s*\d+\.\s+(.*$)/gim, '<li>$1</li>')
+    // Paragraphs (double newlines)
+    .replace(/\n\n/g, '</p><p>')
+    // Single newlines to breaks
+    .replace(/\n/g, '<br>')
+    // Wrap in paragraph
+    .replace(/^(.*)$/s, '<p>$1</p>')
+    // Clean up empty paragraphs
+    .replace(/<p><\/p>/g, '')
+    .replace(/<p><br><\/p>/g, '')
+}
+
+// Enhanced markdown content formatter for card-based display
+const formatReportContent = (text) => {
+  if (!text) return ''
+
+  const lines = text.split('\n')
+  let html = ''
+  let inList = false
+
+  for (let line of lines) {
+    line = line.trim()
+    if (!line) {
+      if (inList) {
+        html += '</ul>'
+        inList = false
+      }
+      continue
+    }
+
+    // Bold competency headers like **Active Listening (0%)**
+    if (line.startsWith('**') && line.endsWith('**')) {
+      if (inList) {
+        html += '</ul>'
+        inList = false
+      }
+      const content = line.slice(2, -2)
+      html += `<h5 class="competency-header">${content}</h5>`
+      continue
+    }
+
+    // List items
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      if (!inList) {
+        html += '<ul>'
+        inList = true
+      }
+      const content = line.slice(2)
+      html += `<li>${formatInlineMarkdown(content)}</li>`
+      continue
+    }
+
+    // Regular paragraph
+    if (inList) {
+      html += '</ul>'
+      inList = false
+    }
+    html += `<p>${formatInlineMarkdown(line)}</p>`
+  }
+
+  if (inList) {
+    html += '</ul>'
+  }
+
+  return html
+}
+
+// Format inline markdown (bold, italic, quotes)
+const formatInlineMarkdown = (text) => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/"([^"]+)"/g, '<span class="quote">"$1"</span>')
+}
+
+// Parse AI report into structured sections for card display
+const parseReport = (content) => {
+  if (!content) return {}
+
+  const sections = {
+    overall: '',
+    strengths: '',
+    development: '',
+    crossCompetency: '',
+    progress: '',
+    priority: ''
+  }
+
+  // Use regex to extract sections more reliably
+
+  // Extract Overall Score section (## Overall Score: X% or ## Overall Assessment)
+  const overallMatch = content.match(/## Overall[^\n]*\n([\s\S]*?)(?=\n## |\n---|\n\*Basic|$)/i)
+  if (overallMatch) {
+    sections.overall = overallMatch[1].trim()
+  }
+
+  // Extract Strength Areas (### Strength Areas or ## Strength Areas)
+  const strengthMatch = content.match(/###?\s*Strength[s]?\s*(?:Areas?)?\n([\s\S]*?)(?=\n###?\s|\n## |\n---|\n\*Basic|$)/i)
+  if (strengthMatch) {
+    sections.strengths = strengthMatch[1].trim()
+  }
+
+  // Extract Development Areas (### Development Areas or ## Development Areas)
+  const developmentMatch = content.match(/###?\s*Development\s*(?:Areas?)?\n([\s\S]*?)(?=\n###?\s|\n## |\n---|\n\*Basic|$)/i)
+  if (developmentMatch) {
+    sections.development = developmentMatch[1].trim()
+  }
+
+  // Extract Cross-Competency Insights
+  const crossCompMatch = content.match(/###?\s*Cross[- ]?Competency[^\n]*\n([\s\S]*?)(?=\n###?\s|\n## |\n---|\n\*Basic|$)/i)
+  if (crossCompMatch) {
+    sections.crossCompetency = crossCompMatch[1].trim()
+  }
+
+  // Extract Progress/Comparison section
+  const progressMatch = content.match(/###?\s*(?:Progress|Comparison|Previous)[^\n]*\n([\s\S]*?)(?=\n###?\s|\n## |\n---|\n\*Basic|$)/i)
+  if (progressMatch) {
+    sections.progress = progressMatch[1].trim()
+  }
+
+  // Extract Priority/Recommendations section
+  const priorityMatch = content.match(/###?\s*(?:Priority|Recommendation|Focus|Next\s*Step)[^\n]*\n([\s\S]*?)(?=\n###?\s|\n## |\n---|\n\*Basic|$)/i)
+  if (priorityMatch) {
+    sections.priority = priorityMatch[1].trim()
+  }
+
+  return sections
+}
+
+// Computed: parsed AI report sections
+const parsedReport = computed(() => {
+  if (!aiReport.value?.content) return {}
+  return parseReport(aiReport.value.content)
+})
+
+// Computed: check if any sections were parsed
+const hasParsedSections = computed(() => {
+  const report = parsedReport.value
+  return report.overall || report.strengths || report.development ||
+         report.crossCompetency || report.progress || report.priority
+})
+
+// Get CSS class for competency based on percentage
+const getCompetencyClass = (percentage) => {
+  if (percentage >= 80) return 'excellent'
+  if (percentage >= 60) return 'good'
+  if (percentage >= 40) return 'developing'
+  return 'needs-work'
+}
+
+// Get label for competency based on percentage
+const getCompetencyLabel = (percentage) => {
+  if (percentage >= 80) return 'Excellent'
+  if (percentage >= 60) return 'Good'
+  if (percentage >= 40) return 'Developing'
+  return 'Needs Work'
 }
 
 // Watch for filter changes to reset pagination
@@ -782,7 +1035,7 @@ const goToAssessments = () => {
 }
 
 const continueAssessment = (attempt) => {
-  // Navigate to assessment player with continue action
+  // Navigate to AI assessment player with continue action
   window.location.href = `/docs/assessments/take?action=continue#${attempt.assessment_slug}`
 }
 
@@ -1889,82 +2142,160 @@ onMounted(async () => {
   font-size: 1rem;
 }
 
-/* Enhanced Assessment Grid */
+/* Enhanced Assessment Card Grid */
 .attempts-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-width: 900px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  max-width: 1000px;
   margin: 0 auto;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
-.history-item {
+.assessment-card {
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.assessment-card:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.assessment-card.in-progress {
+  border-left: 4px solid #10b981;
+}
+
+.card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: var(--vp-c-bg);
-  border-bottom: 1px solid var(--vp-c-divider);
-  transition: background 0.2s ease;
 }
 
-.history-item:last-child {
-  border-bottom: none;
+.card-date {
+  color: var(--vp-c-text-3);
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
-.history-item:hover {
-  background: var(--vp-c-bg-soft);
-}
-
-.item-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.card-body {
   flex: 1;
 }
 
-.item-info-group {
+.card-title {
+  margin: 0 0 0.25rem 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.card-framework {
+  margin: 0;
+  color: var(--vp-c-text-3);
+  font-size: 0.8rem;
+}
+
+.card-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 1.25rem 0 0;
+  margin-top: auto;
+  border-top: 1px solid var(--vp-c-divider);
   gap: 1rem;
 }
 
-.item-title {
-  color: var(--vp-c-text-1);
+.score-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.score-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.score-value {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+}
+
+.score-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.score-percent {
   font-size: 0.9rem;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.item-date {
-  color: var(--vp-c-text-2);
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-
-.item-result {
-  font-size: 0.8rem;
   font-weight: 600;
-  white-space: nowrap;
 }
 
-.item-result.excellent { color: #22c55e; }
-.item-result.good { color: #3b82f6; }
-.item-result.fair { color: #f59e0b; }
-.item-result.needs-improvement { color: #ef4444; }
+.score-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.score-bar-container {
+  width: 100%;
+  height: 6px;
+  background: var(--vp-c-bg-soft);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.score-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.score-display.excellent { color: #22c55e; }
+.score-display.good { color: #3b82f6; }
+.score-display.fair { color: #f59e0b; }
+.score-display.needs-improvement { color: #ef4444; }
 
 .view-results-btn {
-  padding: 12px;
+  flex-shrink: 0;
+}
+
+.progress-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-text {
+  color: #10b981;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.progress-detail {
+  color: var(--vp-c-text-3);
+  font-size: 0.8rem;
+}
+
+.view-results-btn {
+  padding: 0.6rem 1.25rem;
   background: #3b82f6;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
@@ -1978,14 +2309,15 @@ onMounted(async () => {
 .view-results-btn:hover {
   background: #2563eb;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .continue-btn {
-  padding: 12px;
+  padding: 0.6rem 1.25rem;
   background: #10b981;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
@@ -1999,11 +2331,16 @@ onMounted(async () => {
 .continue-btn:hover {
   background: #059669;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
-.item-result.in-progress {
-  color: #10b981;
-  font-weight: 600;
+/* Dark mode card adjustments */
+.dark .assessment-card {
+  background: var(--vp-c-bg-soft);
+}
+
+.dark .assessment-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -2059,8 +2396,8 @@ onMounted(async () => {
   font-weight: 500;
 }
 
-.card-footer {
-  padding: 0 1.25rem 1.25rem 1.25rem;
+.attempt-card.enhanced .card-footer {
+  padding: 1.25rem 1.25rem 1.25rem 1.25rem;
   text-align: center;
 }
 
@@ -2597,73 +2934,47 @@ html:not(.dark) .performance-message {
     letter-spacing: 0.3px;
   }
   
-  /* History list mobile */
+  /* Assessment cards mobile */
   .attempts-grid {
-    gap: 0;
-    border-radius: 8px;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
-  
-  .history-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+
+  .assessment-card {
     padding: 1rem;
-    border-bottom: 1px solid var(--vp-c-divider);
   }
-  
-  .history-item:last-child {
-    border-bottom: none;
+
+  .card-title {
+    font-size: 1rem;
   }
-  
-  .history-item:hover {
-    background: var(--vp-c-bg-soft);
-  }
-  
-  .item-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    flex: none;
-  }
-  
-  .item-info-group {
-    display: flex;
+
+  .card-footer {
     flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
+    align-items: stretch;
+    gap: 0.75rem;
   }
-  
-  .item-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: initial;
-    text-align: center;
-    line-height: 1.3;
-  }
-  
-  .item-date {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--vp-c-text-3);
-    text-align: center;
-  }
-  
-  .item-result {
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-align: center;
-  }
-  
-  .view-results-btn, .continue-btn {
+
+  .score-display {
     width: 100%;
-    padding: 0.75rem;
+  }
+
+  .score-number {
+    font-size: 1.3rem;
+  }
+
+  .score-percent {
+    font-size: 0.8rem;
+  }
+
+  .score-label {
+    font-size: 0.7rem;
+  }
+
+  .view-results-btn, .continue-btn {
+    padding: 0.6rem 1rem;
     font-size: 0.85rem;
+    width: 100%;
     text-align: center;
-    margin-top: 0.5rem;
   }
   
   /* Card styling mobile */
@@ -2846,5 +3157,544 @@ html:not(.dark) .performance-message {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* AI Report Section */
+.ai-report-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+}
+
+.ai-report-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.ai-report-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.25rem;
+}
+
+.ai-report-header p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: 0.9rem;
+}
+
+.generate-report-action {
+  text-align: center;
+}
+
+.generate-report-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.generate-report-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.ai-report-loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.ai-report-loading p {
+  margin-top: 1rem;
+  color: var(--vp-c-text-2);
+}
+
+.ai-report-error {
+  text-align: center;
+  padding: 1.5rem;
+  background: #fef2f2;
+  border-radius: 8px;
+  color: #dc2626;
+}
+
+.retry-btn {
+  margin-top: 1rem;
+  padding: 8px 16px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.ai-report-content {
+  margin-top: 1.5rem;
+}
+
+.report-cached-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.report-markdown {
+  background: var(--vp-c-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  line-height: 1.7;
+  color: var(--vp-c-text-1);
+}
+
+.report-markdown h2 {
+  margin: 1.5rem 0 1rem 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.3rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding-bottom: 0.5rem;
+}
+
+.report-markdown h3 {
+  margin: 1.25rem 0 0.75rem 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.1rem;
+}
+
+.report-markdown h4 {
+  margin: 1rem 0 0.5rem 0;
+  color: var(--vp-c-text-2);
+  font-size: 1rem;
+}
+
+.report-markdown ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.report-markdown li {
+  margin-bottom: 0.5rem;
+}
+
+.report-markdown p {
+  margin: 0.75rem 0;
+}
+
+.report-markdown strong {
+  color: var(--vp-c-brand-1);
+}
+
+/* Report Metadata */
+.report-metadata {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.report-fallback-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Report Cards Layout */
+.report-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.report-card {
+  background: var(--vp-c-bg);
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider);
+  overflow: hidden;
+}
+
+.report-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.report-card .card-icon {
+  font-size: 1.25rem;
+}
+
+.report-card .card-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.report-card .card-content {
+  padding: 1.25rem;
+  line-height: 1.7;
+  color: var(--vp-c-text-2);
+}
+
+.report-card .card-content :deep(p) {
+  margin: 0 0 1rem 0;
+}
+
+.report-card .card-content :deep(p:last-child) {
+  margin-bottom: 0;
+}
+
+.report-card .card-content :deep(h5.competency-header) {
+  margin: 1.25rem 0 0.75rem 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.report-card .card-content :deep(h5.competency-header:first-child) {
+  margin-top: 0;
+}
+
+.report-card .card-content :deep(ul) {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.report-card .card-content :deep(li) {
+  margin-bottom: 0.5rem;
+  color: var(--vp-c-text-2);
+}
+
+.report-card .card-content :deep(strong) {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+.report-card .card-content :deep(.quote) {
+  color: var(--vp-c-text-1);
+  font-style: italic;
+  background: var(--vp-c-bg-soft);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+}
+
+/* Card Variants - Light Mode */
+.overall-card .card-header {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-bottom-color: #bae6fd;
+}
+.overall-card .card-header h4 { color: #0369a1; }
+
+.strengths-card .card-header {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-bottom-color: #bbf7d0;
+}
+.strengths-card .card-header h4 { color: #15803d; }
+
+.development-card .card-header {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-bottom-color: #fde68a;
+}
+.development-card .card-header h4 { color: #b45309; }
+
+.insights-card .card-header {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border-bottom-color: #e9d5ff;
+}
+.insights-card .card-header h4 { color: #7c3aed; }
+
+.progress-card .card-header {
+  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+  border-bottom-color: #a5f3fc;
+}
+.progress-card .card-header h4 { color: #0891b2; }
+
+.priority-card .card-header {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-bottom-color: #fecaca;
+}
+.priority-card .card-header h4 { color: #dc2626; }
+
+/* Card Variants - Dark Mode */
+.dark .overall-card .card-header {
+  background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+  border-bottom-color: #0369a1;
+}
+.dark .overall-card .card-header h4 { color: #7dd3fc; }
+
+.dark .strengths-card .card-header {
+  background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+  border-bottom-color: #15803d;
+}
+.dark .strengths-card .card-header h4 { color: #86efac; }
+
+.dark .development-card .card-header {
+  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+  border-bottom-color: #b45309;
+}
+.dark .development-card .card-header h4 { color: #fcd34d; }
+
+.dark .insights-card .card-header {
+  background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
+  border-bottom-color: #7c3aed;
+}
+.dark .insights-card .card-header h4 { color: #c4b5fd; }
+
+.dark .progress-card .card-header {
+  background: linear-gradient(135deg, #164e63 0%, #155e75 100%);
+  border-bottom-color: #0891b2;
+}
+.dark .progress-card .card-header h4 { color: #67e8f9; }
+
+.dark .priority-card .card-header {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+  border-bottom-color: #dc2626;
+}
+.dark .priority-card .card-header h4 { color: #fca5a5; }
+
+/* Fallback Raw Content */
+.report-fallback {
+  background: var(--vp-c-bg);
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider);
+  overflow: hidden;
+}
+
+.fallback-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--vp-c-bg-soft);
+  border-bottom: 1px solid var(--vp-c-divider);
+  font-size: 0.85rem;
+  color: var(--vp-c-text-3);
+}
+
+/* Competency Breakdown Card - Top Section */
+.competency-breakdown-card {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+}
+
+.breakdown-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.breakdown-card-header .card-icon {
+  font-size: 1.25rem;
+}
+
+.breakdown-card-header h3 {
+  margin: 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.competency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.competency-card {
+  padding: 1rem;
+  background: var(--vp-c-bg);
+  border-radius: 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-left: 4px solid;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.competency-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.competency-card.excellent {
+  border-left-color: #22c55e;
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.05), transparent);
+}
+
+.competency-card.good {
+  border-left-color: #3b82f6;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent);
+}
+
+.competency-card.developing {
+  border-left-color: #f59e0b;
+  background: linear-gradient(to right, rgba(245, 158, 11, 0.05), transparent);
+}
+
+.competency-card.needs-work {
+  border-left-color: #ef4444;
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.05), transparent);
+}
+
+.competency-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.competency-card .competency-name {
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  font-size: 0.95rem;
+}
+
+.competency-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.competency-badge.excellent {
+  background: #22c55e;
+}
+
+.competency-badge.good {
+  background: #3b82f6;
+}
+
+.competency-badge.developing {
+  background: #f59e0b;
+}
+
+.competency-badge.needs-work {
+  background: #ef4444;
+}
+
+.competency-card .competency-bar {
+  height: 8px;
+  background: var(--vp-c-divider);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.competency-card .competency-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.competency-card.excellent .competency-fill {
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.competency-card.good .competency-fill {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.competency-card.developing .competency-fill {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.competency-card.needs-work .competency-fill {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.competency-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.correct-count {
+  color: var(--vp-c-text-2);
+}
+
+.status-label {
+  font-weight: 500;
+}
+
+.competency-card.excellent .status-label {
+  color: #22c55e;
+}
+
+.competency-card.good .status-label {
+  color: #3b82f6;
+}
+
+.competency-card.developing .status-label {
+  color: #f59e0b;
+}
+
+.competency-card.needs-work .status-label {
+  color: #ef4444;
+}
+
+/* Dark mode adjustments for competency cards */
+.dark .competency-card {
+  border-color: var(--vp-c-divider);
+}
+
+.dark .competency-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .competency-card.excellent {
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.1), transparent);
+}
+
+.dark .competency-card.good {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.1), transparent);
+}
+
+.dark .competency-card.developing {
+  background: linear-gradient(to right, rgba(245, 158, 11, 0.1), transparent);
+}
+
+.dark .competency-card.needs-work {
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.1), transparent);
+}
+
+@media (max-width: 640px) {
+  .competency-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dark mode AI Report */
+.dark .ai-report-error {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.dark .report-markdown {
+  background: var(--vp-c-bg-alt);
 }
 </style>

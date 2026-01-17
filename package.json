@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.2",
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.4"
   },
   "keywords": [
     "coaching",

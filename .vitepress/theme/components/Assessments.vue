@@ -264,10 +264,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAuth } from '../composables/useAuth.js'
-import { useSupabase } from '../composables/useSupabase.js'
-import { useAssessments, useAssessmentAttempts } from '../composables/useAssessments.js'
+import { useAiAssessments, useAiAssessmentAttempts } from '../composables/useAiAssessments.js'
 import { useBetaAccess } from '../composables/useBetaAccess.js'
 import AssessmentBadge from './shared/AssessmentBadge.vue'
 import ActionButton from './shared/ActionButton.vue'
@@ -281,160 +280,95 @@ import {
 
 // Composables
 const { user } = useAuth()
-const { supabase } = useSupabase()
-const { assessments, loading, error, loadAssessments, getAssessmentsByFramework: getByFramework } = useAssessments()
-const { getUserBestScore } = useAssessmentAttempts()
+const { assessments, loading, loadAssessments } = useAiAssessments()
+const { getUserAttempts, getInProgressAttempt } = useAiAssessmentAttempts()
 const { hasBetaAccess } = useBetaAccess(user)
 
-// Reactive state
+// State
 const selectedFramework = ref('core')
-const userScores = ref({})
+const userBestScores = ref({})
 const incompleteAttempts = ref({})
 
-// Load user's best scores for each assessment
+// Load user's best scores from completed attempts
 const loadUserScores = async () => {
   if (!user.value) return
-  
+
+  const attempts = await getUserAttempts(user.value.id)
   const scores = {}
-  for (const assessment of assessments.value) {
-    try {
-      const bestScore = await getUserBestScore(user.value.id, assessment.id)
-      scores[assessment.id] = bestScore > 0 ? bestScore : null
-    } catch (err) {
-      console.error('Error loading score for assessment:', assessment.id, err)
+
+  // Group by level_id and find best score for each
+  attempts.forEach(attempt => {
+    const levelId = attempt.level_id
+    const score = attempt.score_percentage
+    if (!scores[levelId] || score > scores[levelId]) {
+      scores[levelId] = score
     }
-  }
-  userScores.value = scores
+  })
+
+  userBestScores.value = scores
 }
 
-// Load incomplete attempts for each assessment
+// Load incomplete attempts for each assessment level
 const loadIncompleteAttempts = async () => {
   if (!user.value) return
-  
-  try {
-    
-    const { data: attempts, error } = await supabase
-      .from('user_assessment_attempts')
-      .select('assessment_id, status, started_at')
-      .eq('user_id', user.value.id)
-      .in('status', ['started', 'in_progress'])
-      .order('started_at', { ascending: false })
-    
-    if (error) throw error
-    
-    // Create map of assessment_id -> incomplete attempt
-    const attemptsMap = {}
-    attempts?.forEach(attempt => {
-      if (!attemptsMap[attempt.assessment_id]) {
-        attemptsMap[attempt.assessment_id] = attempt
-      }
-    })
-    
-    incompleteAttempts.value = attemptsMap
-    console.log('Incomplete attempts loaded:', incompleteAttempts.value)
-  } catch (error) {
-    console.error('Error loading incomplete attempts:', error)
+
+  const attemptsMap = {}
+
+  for (const assessment of assessments.value) {
+    const inProgress = await getInProgressAttempt(user.value.id, assessment.id)
+    if (inProgress) {
+      attemptsMap[assessment.id] = inProgress
+    }
   }
+
+  incompleteAttempts.value = attemptsMap
 }
 
-// Computed properties
+// Get assessments filtered by selected framework
 const getAssessmentsByFramework = () => {
-  return getByFramework(selectedFramework.value).map(assessment => ({
-    ...assessment,
-    lastScore: userScores.value[assessment.id] || null,
-    hasIncompleteAttempt: !!incompleteAttempts.value[assessment.id],
-    incompleteStatus: incompleteAttempts.value[assessment.id]?.status,
-    questionCount: assessment.question_count || 'TBD',
-    duration: `${assessment.estimated_duration} min`,
-    // Use database is_active field to determine availability
-    comingSoon: !assessment.is_active
-  })).sort((a, b) => {
-    // Sort by difficulty level (I, II, III progression)
-    const difficultyOrder = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 }
-    return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]
-  })
+  return assessments.value
+    .filter(a => a.framework === selectedFramework.value)
+    .map(assessment => ({
+      ...assessment,
+      lastScore: userBestScores.value[assessment.id] || null,
+      hasIncompleteAttempt: !!incompleteAttempts.value[assessment.id],
+      questionCount: assessment.questions_per_attempt,
+      duration: `${Math.ceil(assessment.questions_per_attempt * 1.5)} min`
+    }))
+    .sort((a, b) => {
+      const order = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 }
+      return order[a.difficulty] - order[b.difficulty]
+    })
 }
 
-// Updated for 3-tier system: strength (70-100%), developing (50-69%), weakness (0-49%)
-const getScoreClass = (score) => {
-  if (score >= 80) return 'excellent'
-  if (score >= 70) return 'good' // Strength tier
-  if (score >= 50) return 'developing' // Developing tier
-  return 'needs-improvement' // Weakness tier
-}
-
-// Updated for 3-tier system: strength (70-100%), developing (50-69%), weakness (0-49%)
-const getScoreGrade = (score) => {
-  if (score >= 90) return 'Excellent'
-  if (score >= 80) return 'Very Good'
-  if (score >= 70) return 'Good' // Strength tier
-  if (score >= 50) return 'Developing' // Developing tier
-  return 'Needs Improvement' // Weakness tier
-}
-
-const getProgressText = (assessment) => {
-  // TODO: Get actual progress from database
-  return '2 of 3 questions'
-}
-
-const getProgressPercentage = (assessment) => {
-  // TODO: Calculate actual progress percentage
-  return '66%'
-}
-
-const formatLastActivity = (assessment) => {
-  // TODO: Format actual last activity date
-  return '2 hours ago'
-}
-
-const formatScoreDate = (assessment) => {
-  // TODO: Format actual completion date
-  return '3 days ago'
-}
-
+// Get button text based on assessment state
 const getButtonText = (assessment) => {
-  // Check beta access first
-  if (!hasBetaAccess.value) {
-    return 'Beta Access Required'
-  }
-  
-  if (assessment.hasIncompleteAttempt) {
-    return 'Continue Assessment'
-  }
-  if (assessment.lastScore) {
-    return 'Retake Assessment'
-  }
+  if (!hasBetaAccess.value) return 'Beta Access Required'
+  if (assessment.hasIncompleteAttempt) return 'Continue Assessment'
+  if (assessment.lastScore) return 'Retake Assessment'
   return 'Take Assessment'
 }
 
-
-// Methods
+// Navigate to assessment player with appropriate action
 const startAssessment = (assessment) => {
-  // Safety check: prevent navigation for non-beta users
-  if (!hasBetaAccess.value) {
-    console.log('Beta access required - navigation blocked')
-    return
-  }
-  
-  let action = 'take'
-  
+  if (!hasBetaAccess.value) return
+
+  // Determine the action based on assessment state
+  let action = 'take'  // Default: new assessment
   if (assessment.hasIncompleteAttempt) {
-    action = 'continue'
+    action = 'continue'  // Resume in-progress attempt with saved question order
   } else if (assessment.lastScore) {
-    action = 'retake' 
+    action = 'retake'  // Start fresh for retake
   }
-  
-  // Navigate to assessment player with assessment slug and action
+
+  // Navigate to AI assessment player with slug and action
   window.location.href = `/docs/assessments/take?action=${action}#${assessment.slug}`
 }
 
+// Initialize
 onMounted(async () => {
-  console.log('Assessments component mounted')
-  
-  // Load assessments from database
   await loadAssessments()
-  
-  // Load user scores if authenticated
+
   if (user.value) {
     await loadUserScores()
     await loadIncompleteAttempts()

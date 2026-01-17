@@ -69,6 +69,7 @@ data_dump/
 
 # Claude AI artifacts
 .claude/
+.planning/
 
 # Migration backup (can be removed after successful migration)
 migration-backup/
