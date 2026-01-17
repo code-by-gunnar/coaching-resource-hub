@@ -33,6 +33,9 @@ export function useAiAssessments() {
 
       if (fetchError) throw fetchError
 
+      // Filter out levels where framework is inactive
+      const activeData = (data || []).filter(level => level.framework?.is_active !== false)
+
       // Map level_code to difficulty display name
       const difficultyMap = {
         'beginner': 'Beginner',
@@ -41,7 +44,7 @@ export function useAiAssessments() {
       }
 
       // Transform to match expected format
-      assessments.value = (data || []).map(level => ({
+      assessments.value = activeData.map(level => ({
         id: level.id,
         title: level.name,
         slug: `${level.framework.code}-${level.level_code}`,

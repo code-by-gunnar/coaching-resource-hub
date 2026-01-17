@@ -21,8 +21,8 @@
               <div class="auth-feature-icon">
                 <ChartBarSquareIcon class="feature-icon-svg" aria-hidden="true" />
               </div>
-              <h3>Detailed Analytics</h3>
-              <p>Track your progress across competencies with comprehensive performance insights</p>
+              <h3>AI-Powered Analysis</h3>
+              <p>Receive personalized feedback and actionable insights generated for your unique results</p>
             </div>
             <div class="auth-feature">
               <div class="auth-feature-icon">
@@ -118,7 +118,7 @@
             </div>
             <div class="feature-item">
               <ChartBarSquareIcon class="feature-icon-svg" aria-hidden="true" />
-              <span>Detailed Progress Tracking</span>
+              <span>AI-Powered Insights</span>
             </div>
             <div class="feature-item">
               <TrophyIcon class="feature-icon-svg" aria-hidden="true" />
@@ -132,8 +132,9 @@
         <h3>Choose Your Framework</h3>
         <p class="framework-description">Select a coaching framework to begin your assessment journey. Each framework offers 3 progressive levels: Foundation, Intermediate, and Advanced.</p>
         <div class="framework-options">
-          <button 
-            @click="selectedFramework = 'core'" 
+          <button
+            v-if="isFrameworkActive('core')"
+            @click="selectedFramework = 'core'"
             :class="{ active: selectedFramework === 'core' }"
             class="framework-btn"
           >
@@ -152,8 +153,9 @@
             </div>
           </button>
           
-          <button 
-            @click="selectedFramework = 'icf'" 
+          <button
+            v-if="isFrameworkActive('icf')"
+            @click="selectedFramework = 'icf'"
             :class="{ active: selectedFramework === 'icf' }"
             class="framework-btn"
           >
@@ -172,8 +174,9 @@
             </div>
           </button>
           
-          <button 
-            @click="selectedFramework = 'ac'" 
+          <button
+            v-if="isFrameworkActive('ac')"
+            @click="selectedFramework = 'ac'"
             :class="{ active: selectedFramework === 'ac' }"
             class="framework-btn"
           >
@@ -264,7 +267,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAuth } from '../composables/useAuth.js'
 import { useAiAssessments, useAiAssessmentAttempts } from '../composables/useAiAssessments.js'
 import { useBetaAccess } from '../composables/useBetaAccess.js'
@@ -289,18 +292,20 @@ const selectedFramework = ref('core')
 const userBestScores = ref({})
 const incompleteAttempts = ref({})
 
-// Load user's best scores from completed attempts
+// Load user's latest scores from completed attempts
 const loadUserScores = async () => {
   if (!user.value) return
 
   const attempts = await getUserAttempts(user.value.id)
   const scores = {}
 
-  // Group by level_id and find best score for each
+  // Attempts are already sorted by completed_at DESC (newest first)
+  // Take the first (latest) score for each level_id
   attempts.forEach(attempt => {
     const levelId = attempt.level_id
     const score = attempt.score_percentage
-    if (!scores[levelId] || score > scores[levelId]) {
+    // Only set if not already set (first occurrence = latest)
+    if (scores[levelId] === undefined) {
       scores[levelId] = score
     }
   })
@@ -322,6 +327,17 @@ const loadIncompleteAttempts = async () => {
   }
 
   incompleteAttempts.value = attemptsMap
+}
+
+// Get active frameworks (ones that have at least one assessment)
+const activeFrameworks = computed(() => {
+  const frameworks = new Set(assessments.value.map(a => a.framework))
+  return frameworks
+})
+
+// Check if a framework is active
+const isFrameworkActive = (frameworkCode) => {
+  return activeFrameworks.value.has(frameworkCode)
 }
 
 // Get assessments filtered by selected framework
@@ -368,6 +384,11 @@ const startAssessment = (assessment) => {
 // Initialize
 onMounted(async () => {
   await loadAssessments()
+
+  // Auto-select first active framework if current selection is inactive
+  if (!isFrameworkActive(selectedFramework.value) && activeFrameworks.value.size > 0) {
+    selectedFramework.value = [...activeFrameworks.value][0]
+  }
 
   if (user.value) {
     await loadUserScores()
@@ -741,8 +762,9 @@ onMounted(async () => {
 }
 
 .framework-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
   max-width: 1000px;
   margin: 0 auto;
@@ -756,6 +778,8 @@ onMounted(async () => {
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
+  width: 300px;
+  flex-shrink: 0;
 }
 
 .framework-btn:hover {
@@ -1336,8 +1360,12 @@ onMounted(async () => {
   }
   
   .framework-options {
-    grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .framework-btn {
+    width: 100%;
+    max-width: 300px;
   }
   
   .framework-card {

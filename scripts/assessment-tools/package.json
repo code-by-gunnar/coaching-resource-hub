@@ -1,0 +1,16 @@
+{
+  "name": "assessment-tools",
+  "version": "1.0.0",
+  "description": "CLI tools for managing AI assessments",
+  "type": "module",
+  "scripts": {
+    "import": "node import-questions.js",
+    "create": "node create-assessment.js",
+    "list": "node list-assessments.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "csv-parse": "^5.5.0",
+    "dotenv": "^16.3.0"
+  }
+}
