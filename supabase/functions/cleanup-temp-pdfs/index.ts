@@ -77,7 +77,7 @@ serve(async (req) => {
     const deletePromises = filesToDelete.map(async (record: any) => {
       try {
         // Delete from storage using the full path stored in database
-        const deleteResponse = await fetch(`${supabaseUrl}/storage/v1/object/temporary_pdfs/${record.file_path}`, {
+        const deleteResponse = await fetch(`${supabaseUrl}/storage/v1/object/temporary-pdfs/${record.file_path}`, {
           method: 'DELETE',
           headers: {
             'apikey': supabaseServiceKey,
