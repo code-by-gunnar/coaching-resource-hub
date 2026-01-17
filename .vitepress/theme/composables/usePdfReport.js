@@ -27,8 +27,48 @@ async function loadImageAsBase64(url) {
   }
 }
 
+// CDN sources for pdfmake with fallbacks
+const PDFMAKE_CDNS = [
+  {
+    main: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js',
+    fonts: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.min.js'
+  },
+  {
+    main: 'https://cdn.jsdelivr.net/npm/pdfmake@0.2.10/build/pdfmake.min.js',
+    fonts: 'https://cdn.jsdelivr.net/npm/pdfmake@0.2.10/build/vfs_fonts.min.js'
+  },
+  {
+    main: 'https://unpkg.com/pdfmake@0.2.10/build/pdfmake.min.js',
+    fonts: 'https://unpkg.com/pdfmake@0.2.10/build/vfs_fonts.min.js'
+  }
+]
+
 /**
- * Load pdfmake from CDN (avoids Vite bundling issues)
+ * Load a script from URL with timeout
+ */
+function loadScript(src, timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = src
+
+    const timer = setTimeout(() => {
+      reject(new Error(`Script load timeout: ${src}`))
+    }, timeout)
+
+    script.onload = () => {
+      clearTimeout(timer)
+      resolve()
+    }
+    script.onerror = () => {
+      clearTimeout(timer)
+      reject(new Error(`Failed to load: ${src}`))
+    }
+    document.head.appendChild(script)
+  })
+}
+
+/**
+ * Load pdfmake from CDN with fallbacks (avoids Vite bundling issues)
  */
 async function loadPdfMake() {
   if (pdfMakeInstance) return pdfMakeInstance
@@ -39,26 +79,25 @@ async function loadPdfMake() {
     return pdfMakeInstance
   }
 
-  // Load pdfmake script
-  await new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js'
-    script.onload = resolve
-    script.onerror = reject
-    document.head.appendChild(script)
-  })
+  // Try each CDN until one works
+  let lastError = null
+  for (const cdn of PDFMAKE_CDNS) {
+    try {
+      await loadScript(cdn.main)
+      await loadScript(cdn.fonts)
 
-  // Load fonts
-  await new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.min.js'
-    script.onload = resolve
-    script.onerror = reject
-    document.head.appendChild(script)
-  })
+      if (window.pdfMake) {
+        pdfMakeInstance = window.pdfMake
+        return pdfMakeInstance
+      }
+    } catch (err) {
+      lastError = err
+      console.warn(`pdfmake CDN failed, trying next:`, err.message)
+      continue
+    }
+  }
 
-  pdfMakeInstance = window.pdfMake
-  return pdfMakeInstance
+  throw lastError || new Error('All pdfmake CDN sources failed')
 }
 
 export function usePdfReport() {

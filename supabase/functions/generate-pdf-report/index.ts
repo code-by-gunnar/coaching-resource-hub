@@ -117,7 +117,8 @@ async function generateFreshInsightsFromDatabase(competency_stats: any[], framew
       const analysisTypeId = analysisTypeData[0].id
       
       // 1. Query performance analysis using new comprehensive view
-      const assessmentLevel = 'beginner' // TODO: Get from context or parameter
+      // Currently only beginner assessments are implemented - expand when other levels are added
+      const assessmentLevel = 'beginner'
       const analysisResponse = await fetch(`${supabaseUrl}/rest/v1/performance_analysis_with_analysis_type?competency_id=eq.${competencyId}&analysis_type_code=eq.${analysisType}&framework_code=eq.${framework}&assessment_level=eq.${assessmentLevel}&score_min=lte.${percentage}&score_max=gte.${percentage}&is_active=eq.true&order=tier_display_order&limit=1`, {
         headers: {
           'apikey': serviceRoleKey,

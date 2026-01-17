@@ -1,5 +1,6 @@
 // Custom theme to extend VitePress default theme
 import DefaultTheme from 'vitepress/theme'
+import { initSentry } from './composables/useSentry.js'
 import Auth from './components/Auth.vue'
 import Profile from './components/Profile.vue'
 import AuthNav from './components/AuthNav.vue'
@@ -62,5 +63,8 @@ export default {
     // Admin tools (lightweight assessment management)
     const AdminTools = await import('./components/AdminTools.vue')
     app.component('AdminTools', AdminTools.default)
+
+    // Initialize Sentry error tracking (if configured)
+    await initSentry(app)
   }
 }

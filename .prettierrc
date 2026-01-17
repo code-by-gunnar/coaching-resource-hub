@@ -8,5 +8,6 @@
   "bracketSpacing": true,
   "arrowParens": "avoid",
   "proseWrap": "preserve",
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "vueIndentScriptAndStyle": false
 }

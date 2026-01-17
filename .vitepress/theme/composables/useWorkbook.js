@@ -345,13 +345,16 @@ export function useWorkbook() {
 
   /**
    * Export workbook to PDF
+   * NOTE: Workbook PDF export is a future enhancement.
+   * Assessment PDF export is available in usePdfReport.js
    */
   const exportToPDF = async () => {
     // Save any pending changes first
     await savePendingChanges()
-    
-    // TODO: Implement PDF export
-    console.log('PDF export functionality to be implemented')
+
+    // Workbook PDF export is planned for future release
+    // For now, users can use browser print or assessment PDF export
+    console.warn('Workbook PDF export is not yet implemented. Use browser print (Ctrl+P) as workaround.')
   }
 
   /**

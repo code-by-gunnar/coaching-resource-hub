@@ -237,7 +237,6 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useAssessmentInsights } from '../composables/useAssessmentInsights.js'
 import {
   ClipboardDocumentCheckIcon,
   ExclamationTriangleIcon,
@@ -278,17 +277,21 @@ const isExpanded = (competencyArea) => {
   return expandedCard.value === competencyArea
 }
 
-// Use insights composable for fallback
-const {
-  getSmartInsights,
-  mapCompetencyToSkill,
-  getSkillTags,
-  getTagInsight,
-  getTagActionableStep
-} = useAssessmentInsights(
-  computed(() => props.competencyStats),
-  props.assessmentFramework
-)
+// Simple helper to map competency to skill (returns competency name)
+const mapCompetencyToSkill = (competency) => competency
+
+// Extract skill tags from competency's skillTagAnalysis data
+const getSkillTags = (competencyArea) => {
+  // Find the competency in personalizedAnalysis or competencyStats
+  const comp = props.personalizedAnalysis?.find(c => c.area === competencyArea) ||
+    props.competencyStats?.find(c => c.area === competencyArea)
+
+  // Extract tag names from skillTagAnalysis if available
+  if (comp?.skillTagAnalysis?.length > 0) {
+    return comp.skillTagAnalysis.map(t => t.tag)
+  }
+  return []
+}
 
 // Determine if we have personalized insights
 const hasPersonalizedInsights = computed(() => {

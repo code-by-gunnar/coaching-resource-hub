@@ -9,11 +9,20 @@ import { useAnalytics } from '../composables/useAnalytics.js'
 
 const route = useRoute()
 
-// Replace with your actual GA4 Measurement ID
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'
+// Get GA Measurement ID from environment variable
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || ''
+
+// Check if GA is properly configured (not empty or placeholder)
+const isGAConfigured = GA_MEASUREMENT_ID &&
+  GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX' &&
+  GA_MEASUREMENT_ID.startsWith('G-')
 
 onMounted(() => {
-  // Initialize Google Analytics
+  // Only initialize Google Analytics if properly configured
+  if (!isGAConfigured) {
+    return
+  }
+
   if (typeof window !== 'undefined' && !window.gtag) {
     // Load Google Analytics script
     const script = document.createElement('script')
@@ -51,8 +60,8 @@ onMounted(() => {
 // Get analytics composable
 const { trackEvent } = useAnalytics()
 
-// Watch for route changes to track page views
-if (typeof window !== 'undefined') {
+// Watch for route changes to track page views (only if GA is configured)
+if (isGAConfigured && typeof window !== 'undefined') {
   // Listen for route changes
   window.addEventListener('popstate', () => {
     if (window.gtag) {

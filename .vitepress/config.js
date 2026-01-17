@@ -77,14 +77,8 @@ export default defineConfig({
       }
     })],
     
-    // Google Analytics - Disabled (replace G-XXXXXXXXXX with real GA4 ID when ready)
-    // ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX' }],
-    // ['script', {}, `
-    //   window.dataLayer = window.dataLayer || [];
-    //   function gtag(){dataLayer.push(arguments);}
-    //   gtag('js', new Date());
-    //   gtag('config', 'G-XXXXXXXXXX');
-    // `],
+    // Google Analytics - Configured via VITE_GA_MEASUREMENT_ID env variable
+    // See GoogleAnalytics.vue component for implementation
     
     // Additional SEO enhancements
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],

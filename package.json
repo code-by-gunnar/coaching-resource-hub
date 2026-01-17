@@ -12,11 +12,23 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:headed": "playwright test --headed",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "test": "vitest",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write \"./**/*.{js,vue,css,md,json}\""
   },
   "devDependencies": {
     "@playwright/test": "^1.54.2",
-    "vitepress": "^1.6.4"
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "happy-dom": "^15.11.7",
+    "prettier": "^3.4.2",
+    "vitepress": "^1.6.4",
+    "vitest": "^2.1.8"
   },
   "keywords": [
     "coaching",
@@ -29,9 +41,9 @@
   "license": "MIT",
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
+    "@sentry/vue": "^8.46.0",
     "@supabase/supabase-js": "^2.53.0",
     "docx": "^9.5.1",
-    "docx-preview": "^0.3.6",
     "dotenv": "^17.2.1",
     "file-saver": "^2.0.5",
     "pdfmake": "^0.3.2"
